@@ -10,11 +10,6 @@ import java.util.Map;
 @EqualsAndHashCode
 public class Adventurer {
 
-
-    public Map<String, Integer> getStats() {
-        return stats;
-    }
-
     public boolean setStat(String statName, int statNum) {
         if (!stats.containsKey(statName)) {
             return false;
@@ -51,7 +46,16 @@ public class Adventurer {
     }
 
     private enum Race {
-
+        HUMAN("Human"),
+        DWARF("Dwarf"),
+        ELF("Elf"),
+        GNOME("Gnome"),
+        HALFLING("Halfling"),
+        DRAGONBORN("Dragonborn"),
+        HALFELF("Half-Elf"),
+        HALFORC("Half-Orc"),
+        TIEFLING("Tiefling");
+        Race(String name) {}
     }
 }
 
