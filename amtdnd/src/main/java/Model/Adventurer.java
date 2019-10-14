@@ -41,7 +41,6 @@ public class Adventurer {
         WARLOCK("Warlock"),
         WIZARD("Wizard");
 
-
         CharacterClass(String name) {}
     }
 
@@ -55,6 +54,7 @@ public class Adventurer {
         HALFELF("Half-Elf"),
         HALFORC("Half-Orc"),
         TIEFLING("Tiefling");
+
         Race(String name) {}
     }
 }
