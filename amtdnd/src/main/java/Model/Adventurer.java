@@ -31,6 +31,10 @@ public class Adventurer {
         stats.put(statName, statNum);
     }
 
+    public int getStat(Stats statName) {
+        return stats.get(statName);
+    }
+
     public int getLevel() {
         return experience == 0 ? 1 : (int) Math.floor(Math.log10(experience));
     }
