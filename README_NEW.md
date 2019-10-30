@@ -51,7 +51,7 @@
  * intelligence
  * wisdom
  * charisma
- * gold
+* gold
  
 ## Quests
 * objective

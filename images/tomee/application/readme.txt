@@ -1,1 +1,0 @@
-Put your .war in this directory.

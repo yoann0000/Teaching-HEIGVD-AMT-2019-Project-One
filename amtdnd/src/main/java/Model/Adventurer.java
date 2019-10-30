@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import java.util.HashMap;
 import java.util.Map;
 
+@Builder(toBuilder = true)
 @Data
 @EqualsAndHashCode
 public class Adventurer {
