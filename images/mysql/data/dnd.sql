@@ -33,27 +33,24 @@ CREATE TABLE player (
 	charisma SMALLINT UNSIGNED NOT NULL,
 	fkRace VARCHAR(30) NOT NULL,     
 	fkClasse VARCHAR(30) NOT NULL,
-	fkGuild INT UNSIGNED,
-	guildLeader BOOLEAN,
+	fkGuild VARCHAR(100),
 	CONSTRAINT ID_player PRIMARY KEY (name)
 );
 
 CREATE TABLE guild(
-	id INT UNSIGNED AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
 	reputation INT NOT NULL,
 	CONSTRAINT ID_guild PRIMARY KEY (id)
 );
 
 CREATE TABLE party(
-	id INT UNSIGNED AUTO_INCREMENT,
 	name VARCHAR(100) NOT NULL,
 	reputation INT NOT NULL,
 	CONSTRAINT ID_party PRIMARY KEY (id)
 );
 
 CREATE TABLE quest(
-	id INT UNSIGNED AUTO_INCREMENT,
+	id INT NOT NULL,
 	objective VARCHAR(50) NOT NULL,
 	description VARCHAR(666) NOT NULL,
 	rewardGold INT UNSIGNED NOT NULL,
@@ -63,14 +60,13 @@ CREATE TABLE quest(
 
 CREATE TABLE playerParty(
 	fkPlayer VARCHAR(100) UNSIGNED NOT NULL,     
-	fkParty INT UNSIGNED NOT NULL,     
-	leader BOOLEAN NOT NULL,
+	fkParty VARCHAR(100) NOT NULL,     
 	CONSTRAINT ID_partyPlayer PRIMARY KEY (fkPlayer, fkParty)
 );
 
 CREATE TABLE guildPartyQuest(
-	fkGuild INT UNSIGNED NOT NULL,
-	fkParty INT UNSIGNED NOT NULL,
+	fkGuild VARCHAR(100)NOT NULL,
+	fkParty VARCHAR(100) NOT NULL,
 	fkQuest INT UNSIGNED NOT NULL,
 	CONSTRAINT ID_guildPartyQuest PRIMARY KEY (fkGuild, fkParty, fkQuest)
 );
@@ -92,7 +88,7 @@ ALTER TABLE player
 ALTER TABLE player 
 	ADD CONSTRAINT FKplayerGuild
 	FOREIGN KEY (fkGuild)     
-	REFERENCES guild (id) 
+	REFERENCES guild (name) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE playerParty
@@ -104,19 +100,19 @@ ALTER TABLE playerParty
 ALTER TABLE playerParty
 	ADD CONSTRAINT FKplayerPartyParty
 	FOREIGN KEY (fkParty)     
-	REFERENCES party (id) 
+	REFERENCES party (name) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE guildPartyQuest
 	ADD CONSTRAINT guildPartyQuestGuild
 	FOREIGN KEY (fkGuild)     
-	REFERENCES guild (id) 
+	REFERENCES guild (name) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE guildPartyQuest
 	ADD CONSTRAINT guildPartyQuestParty
 	FOREIGN KEY (fkparty)     
-	REFERENCES party (id) 
+	REFERENCES party (name) 
 	ON UPDATE CASCADE;
 
 ALTER TABLE guildPartyQuest

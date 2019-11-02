@@ -7,6 +7,8 @@ import Model.Quest;
 import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
 
+import java.security.KeyStoreException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -16,13 +18,12 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
     public static final boolean INCLUDE_DELETED = true;
 
     ConcurrentHashMap<String, Adventurer> storeAdventurers = new ConcurrentHashMap<String, Adventurer>();
-    ConcurrentHashMap<Long, Guild> storeGuilds = new ConcurrentHashMap<Long, Guild>();
-    ConcurrentHashMap<Long, Party> storeParties = new ConcurrentHashMap<Long, Party>();
+    ConcurrentHashMap<String, Guild> storeGuilds = new ConcurrentHashMap<String, Guild>();
+    ConcurrentHashMap<String, Party> storeParties = new ConcurrentHashMap<String, Party>();
     ConcurrentHashMap<Long, Quest> storeQuests = new ConcurrentHashMap<Long, Quest>();
+    List<String> storeClass = new LinkedList<String>();
+    List<String> storeRace = new LinkedList<String>();
 
-    long lastAdventurerId = 0;
-    long lastGuildId = 0;
-    long lastPartyId = 0;
     long lastQuestId = 0;
 
     @Override
@@ -39,99 +40,210 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
     @Override
     public void insertAdventurer(Adventurer adventurer) throws DuplicateKeyException {
         if(storeAdventurers.get(adventurer.getName()) != null){
-            throw new DuplicateKeyException("Adventurer with id " + adventurer.getName() + " already exists.");
+            throw new DuplicateKeyException("Adventurer with name " + adventurer.getName() + " already exists.");
         }
         Adventurer clone = adventurer.toBuilder().build();
         storeAdventurers.put(adventurer.getName(), clone);
     }
 
     @Override
-    public Adventurer loadAdventurerByName(String name) {
-        return null;
+    public Adventurer loadAdventurerByName(String name) throws KeyNotFoundException {
+        Adventurer adventurer = storeAdventurers.get(name);
+        if(adventurer == null){
+            throw new KeyNotFoundException("Could not find adventurer " + name);
+        }
+        Adventurer clone = adventurer.toBuilder().build();
+        return clone;
     }
 
+    @Override
     public void updateAdventurer(Adventurer adventurer) throws KeyNotFoundException {
-
+        Adventurer storedAdventurer = storeAdventurers.get(adventurer.getName());
+        if(storedAdventurer == null){
+            throw new KeyNotFoundException("Could not find adventurer with name " + adventurer.getName());
+        }
+        Adventurer clone = adventurer.toBuilder().build();
+        storeAdventurers.put(adventurer.getName(), clone);
     }
 
-    public Guild getAdventurerGuild(Adventurer adventurer) throws KeyNotFoundException {
-        return null;
-    }
-
+    @Override
     public List<Party> getAdventurerParties(Adventurer adventurer) throws KeyNotFoundException {
-        return null;
+        if(storeAdventurers.get(adventurer.getName()) == null){
+            throw new KeyNotFoundException("Could not find adventurer " + adventurer.getName());
+        }
+        List<Party> adventurerParties = storeParties.values()
+                .stream()
+                .filter(party -> party.getMembers().contains(adventurer))
+                .collect(Collectors.toList());
+        return adventurerParties
+                .stream()
+                .map(party -> party.toBuilder().build())
+                .collect(Collectors.toList());
     }
 
+    @Override
     public List<String> getAllClass() {
-        return null;
+        return storeClass
+                .stream()
+                .map(klass -> {
+                    String clone = klass.toString();
+                    return clone;
+                }).collect(Collectors.toList());
     }
 
+    @Override
     public List<String> getAllRace() {
-        return null;
+        return storeRace
+                .stream()
+                .map(race -> {
+                    String clone = race.toString();
+                    return clone;
+                }).collect(Collectors.toList());
     }
 
+    @Override
     public List<Guild> getAllGuilds() {
-        return null;
+        return storeGuilds
+                .values()
+                .stream()
+                .map(guild -> {
+                    Guild clone = guild.toBuilder().build();
+                    return clone;
+                }).collect(Collectors.toList());
     }
 
+    @Override
     public void insertGuild(Guild guild) throws DuplicateKeyException {
-
+        if(storeGuilds.get(guild.getName()) != null){
+            throw new DuplicateKeyException("Guild with name " + guild.getName() + " already exists.");
+        }
+        Guild clone = guild.toBuilder().build();
+        storeGuilds.put(guild.getName(), clone);
     }
 
-    public Guild loadGuildByName(String name) {
-        return null;
+    @Override
+    public Guild loadGuildByName(String name) throws KeyNotFoundException {
+        Guild guild = storeGuilds.get(name);
+        if(guild == null){
+            throw new KeyNotFoundException("Could not find guild " + name);
+        }
+        Guild clone = guild.toBuilder().build();
+        return clone;
     }
 
+    @Override
     public void updateGuild(Guild guild) throws KeyNotFoundException {
-
+        Guild storedGuild = storeGuilds.get(guild.getName());
+        if(storedGuild == null){
+            throw new KeyNotFoundException("Could not find guild " + guild.getName());
+        }
+        Guild clone = guild.toBuilder().build();
+        storeGuilds.put(guild.getName(), clone);
     }
 
-    public void deleteGuild(Guild guild) throws KeyNotFoundException {
-
+    @Override
+    public List<Adventurer> getGuildMembers(Guild guild) throws KeyNotFoundException {
+        if(storeGuilds.get(guild.getName()) == null){
+            throw new KeyNotFoundException("Could not find guild " + guild.getName());
+        }
+        List<Adventurer> guildMembers = storeAdventurers.values()
+                .stream()
+                .filter(adventurer -> adventurer.getGuild().equals(guild))
+                .collect(Collectors.toList());
+        return guildMembers
+                .stream()
+                .map(adventurer -> adventurer.toBuilder().build())
+                .collect(Collectors.toList());
     }
 
-    public List<Adventurer> getGuildMember(Guild guild) throws KeyNotFoundException {
-        return null;
-    }
-
+    @Override
     public List<Party> getAllParties() {
-        return null;
+        return storeParties
+                .values()
+                .stream()
+                .map(party -> {
+                    Party clone = party.toBuilder().build();
+                    return clone;
+                }).collect(Collectors.toList());
     }
 
-    public void insertParties(Party party) throws DuplicateKeyException {
-
+    @Override
+    public void insertParty(Party party) throws DuplicateKeyException {
+        if(storeParties.get(party.getName()) != null){
+            throw new DuplicateKeyException("Party with name " + party.getName() + " already exists.");
+        }
+        Party clone = party.toBuilder().build();
+        storeParties.put(party.getName(), clone);
     }
 
-    public Party loadPartyByName(String name) {
-        return null;
+    @Override
+    public Party loadPartyByName(String name) throws KeyNotFoundException {
+        Party party = storeParties.get(name);
+        if(party == null){
+            throw new KeyNotFoundException("Could not find party " + name);
+        }
+        Party clone = party.toBuilder().build();
+        return clone;
     }
 
+    @Override
     public void updateParty(Party party) throws KeyNotFoundException {
-
+        Party storedParty = storeParties.get(party.getName());
+        if(storedParty == null){
+            throw new KeyNotFoundException("Could not find party " + party.getName());
+        }
+        Party clone = party.toBuilder().build();
+        storeParties.put(party.getName(), clone);
     }
 
-    public void deleteParty(Party party) throws KeyNotFoundException {
-
+    @Override
+    public List<Adventurer> getPartyMembers(Party party) throws KeyNotFoundException {
+        if(storeParties.get(party.getName()) == null){
+            throw new KeyNotFoundException("Could not find party " + party.getName());
+        }
+        List<Adventurer> partyMembers = party.getMembers();
+        return partyMembers
+                .stream()
+                .map(adventurer -> adventurer.toBuilder( ).build( ))
+                .collect(Collectors.toList( ));
     }
 
-    public List<Adventurer> getPartyMember(Party party) throws KeyNotFoundException {
-        return null;
-    }
-
+    @Override
     public List<Quest> getAllQuests() {
-        return null;
+        return storeQuests
+                .values()
+                .stream()
+                .map(quest -> {
+                    Quest clone = quest.toBuilder().build();
+                    return clone;
+                }).collect(Collectors.toList());
     }
 
-    public void insertQuest(Quest quest) throws DuplicateKeyException {
-
+    @Override
+    public synchronized long insertQuest(Quest quest) throws DuplicateKeyException {
+        Quest storedQuest = quest.toBuilder()
+                .id(++lastQuestId).build();
+        storeQuests.put(lastQuestId, storedQuest);
+        return lastQuestId;
     }
 
-    public Quest loadQuestByName(String name) {
-        return null;
+    @Override
+    public Quest loadQuestById(long id) throws KeyNotFoundException {
+        Quest quest = storeQuests.get(id);
+        if(quest == null){
+            throw new KeyNotFoundException("Could not find quest n°" + id);
+        }
+        Quest clone = quest.toBuilder().build();
+        return clone;
     }
 
-    public void updateQUest(Quest quest) throws KeyNotFoundException {
-
+    public void updateQuest(Quest quest) throws KeyNotFoundException {
+        Quest storedQuest = storeQuests.get(quest.getId());
+        if(storedQuest == null){
+            throw new KeyNotFoundException("Could not find quest n°" + quest.getId());
+        }
+        Quest clone = quest.toBuilder().build();
+        storeQuests.put(quest.getId(), clone);
     }
 
     public boolean addAdventurerToGuild(Adventurer adventurer, Guild guild) throws KeyNotFoundException {
