@@ -22,7 +22,7 @@ CREATE TABLE race (
 );
 
 CREATE TABLE player (        
-	name VARCHAR(100) NOT NULL,  
+	id VARCHAR(100) NOT NULL,  
 	password VARCHAR(100) NOT NULL,  	
 	gold BIGINT UNSIGNED NOT NULL,
 	strength SMALLINT UNSIGNED NOT NULL,
@@ -31,20 +31,22 @@ CREATE TABLE player (
 	intelligence SMALLINT UNSIGNED NOT NULL,
 	wisdom SMALLINT UNSIGNED NOT NULL,
 	charisma SMALLINT UNSIGNED NOT NULL,
+	experience INT UNSIGNED NOT NULL,
+	spendpoints INT UNSIGNED NOT NULL,
 	fkRace VARCHAR(30) NOT NULL,     
 	fkClasse VARCHAR(30) NOT NULL,
 	fkGuild VARCHAR(100),
-	CONSTRAINT ID_player PRIMARY KEY (name)
+	CONSTRAINT ID_player PRIMARY KEY (id)
 );
 
 CREATE TABLE guild(
-	name VARCHAR(100) NOT NULL,
+	id VARCHAR(100) NOT NULL,
 	reputation INT NOT NULL,
 	CONSTRAINT ID_guild PRIMARY KEY (id)
 );
 
 CREATE TABLE party(
-	name VARCHAR(100) NOT NULL,
+	id VARCHAR(100) NOT NULL,
 	reputation INT NOT NULL,
 	CONSTRAINT ID_party PRIMARY KEY (id)
 );
@@ -68,6 +70,7 @@ CREATE TABLE guildPartyQuest(
 	fkGuild VARCHAR(100)NOT NULL,
 	fkParty VARCHAR(100) NOT NULL,
 	fkQuest INT UNSIGNED NOT NULL,
+	temps DATETIME NOT NULL,
 	CONSTRAINT ID_guildPartyQuest PRIMARY KEY (fkGuild, fkParty, fkQuest)
 );
 
@@ -88,31 +91,31 @@ ALTER TABLE player
 ALTER TABLE player 
 	ADD CONSTRAINT FKplayerGuild
 	FOREIGN KEY (fkGuild)     
-	REFERENCES guild (name) 
+	REFERENCES guild (id) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE playerParty
 	ADD CONSTRAINT FKplayerPartyPlayer
 	FOREIGN KEY (fkPlayer)     
-	REFERENCES player (name) 
+	REFERENCES player (id) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE playerParty
 	ADD CONSTRAINT FKplayerPartyParty
 	FOREIGN KEY (fkParty)     
-	REFERENCES party (name) 
+	REFERENCES party (id) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE guildPartyQuest
 	ADD CONSTRAINT guildPartyQuestGuild
 	FOREIGN KEY (fkGuild)     
-	REFERENCES guild (name) 
+	REFERENCES guild (id) 
 	ON UPDATE CASCADE;
 	
 ALTER TABLE guildPartyQuest
 	ADD CONSTRAINT guildPartyQuestParty
 	FOREIGN KEY (fkparty)     
-	REFERENCES party (name) 
+	REFERENCES party (id) 
 	ON UPDATE CASCADE;
 
 ALTER TABLE guildPartyQuest

@@ -67,6 +67,21 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
     }
 
     @Override
+    public Guild getAdventurerGuild(Adventurer adventurer) throws KeyNotFoundException {
+        if(storeAdventurers.get(adventurer.getName()) == null){
+            throw new KeyNotFoundException("Could not find adventurer " + adventurer.getName());
+        }
+        List<Guild> adventurerGuild = storeGuilds.values()
+                .stream()
+                .filter(guild -> guild.getMembers().contains(adventurer))
+                .limit(1)
+                .map(guild -> guild.toBuilder().build())
+                .collect(Collectors.toList());
+        if(adventurerGuild.size() == 0) return null;
+        return adventurerGuild.get(0);
+    }
+
+    @Override
     public List<Party> getAdventurerParties(Adventurer adventurer) throws KeyNotFoundException {
         if(storeAdventurers.get(adventurer.getName()) == null){
             throw new KeyNotFoundException("Could not find adventurer " + adventurer.getName());
@@ -146,14 +161,12 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
         if(storeGuilds.get(guild.getName()) == null){
             throw new KeyNotFoundException("Could not find guild " + guild.getName());
         }
-        List<Adventurer> guildMembers = storeAdventurers.values()
-                .stream()
-                .filter(adventurer -> adventurer.getGuild().equals(guild))
-                .collect(Collectors.toList());
-        return guildMembers
+        List<Adventurer> guildMembers = guild.getMembers()
                 .stream()
                 .map(adventurer -> adventurer.toBuilder().build())
                 .collect(Collectors.toList());
+        return guildMembers;
+
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.List;
 public class Party {
     private final String name;
     private List<Adventurer> members;
-    private int retputation;
+    private int reputation;
 
     public int size(){
         return members.size();
@@ -22,5 +22,8 @@ public class Party {
     }
     public void removeMember(Adventurer adventurer){
         members.remove(adventurer);
+    }
+    public void addReputation(int i){
+        reputation += i;
     }
 }

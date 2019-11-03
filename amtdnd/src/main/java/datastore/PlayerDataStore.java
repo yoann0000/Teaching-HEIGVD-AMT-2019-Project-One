@@ -16,6 +16,7 @@ public interface PlayerDataStore {
     void insertAdventurer(Adventurer adventurer) throws DuplicateKeyException;
     Adventurer loadAdventurerByName(String name) throws KeyNotFoundException;
     void updateAdventurer(Adventurer adventurer) throws KeyNotFoundException;
+    Guild getAdventurerGuild(Adventurer adventurer) throws KeyNotFoundException;
     List<Party> getAdventurerParties(Adventurer adventurer) throws KeyNotFoundException;
     List<String> getAllClass();
     List<String> getAllRace();

@@ -12,6 +12,6 @@ class GuildTest {
                 .name(name)
                 .build();
         assertNotNull(maGuilde);
-        assertEquals(name, maGuilde);
+        assertEquals(name, maGuilde.getName());
     }
 }

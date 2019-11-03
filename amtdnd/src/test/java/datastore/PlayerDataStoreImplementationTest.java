@@ -73,6 +73,18 @@ class PlayerDataStoreImplementationTest {
     }
 
     @Test
+    void itShouldBePossibleToGetAnAdventurerGuild() throws KeyNotFoundException, DuplicateKeyException {
+        PlayerDataStore store = new PlayerDataStoreImplementation();
+        Adventurer julien = Adventurer.builder().name("Julien").build();
+        store.insertAdventurer(julien);
+        assertEquals(null, store.getAdventurerGuild(julien));
+        Guild myGuild = Guild.builder().name("MyGuild").members(new LinkedList<>(Arrays.asList(julien))).build();
+        store.insertGuild(myGuild);
+        store.insertGuild(Guild.builder().name("OtherGuild").members(new LinkedList<>()).build());
+        assertEquals(myGuild,  store.getAdventurerGuild(julien));
+    }
+
+    @Test
     void itShouldBePossibleToGetAnAdventurerParties() throws KeyNotFoundException, DuplicateKeyException {
         PlayerDataStore store = new PlayerDataStoreImplementation();
         Adventurer julien = Adventurer.builder().name("Julien").build();
@@ -80,7 +92,7 @@ class PlayerDataStoreImplementationTest {
         store.insertAdventurer(julien);
         store.insertAdventurer(yoann);
         Party partyJulien = Party.builder().name("partyJulien").members(
-                new LinkedList<>(Collections.singletonList(julien))).build();
+                new LinkedList<>(Arrays.asList(julien))).build();
         Party partyHard = Party.builder().name("partyHard").members(
                 new LinkedList<>(Arrays.asList(julien, yoann))).build();
         store.insertParty(partyJulien);
@@ -124,12 +136,12 @@ class PlayerDataStoreImplementationTest {
         PlayerDataStore store = new PlayerDataStoreImplementation();
         Guild guild = Guild.builder()
                 .name("MyGuild")
-                .retputation(0).build();
+                .reputation(0).build();
         store.insertGuild(guild);
-        Guild updatedGuild = guild.toBuilder().retputation(Integer.MAX_VALUE).build();
+        Guild updatedGuild = guild.toBuilder().reputation(Integer.MAX_VALUE).build();
         store.updateGuild(updatedGuild);
         Guild loaded = store.loadGuildByName("MyGuild");
-        assertEquals(Integer.MAX_VALUE, loaded.getRetputation());
+        assertEquals(Integer.MAX_VALUE, loaded.getReputation());
         assertEquals(updatedGuild, loaded);
     }
 
@@ -148,11 +160,12 @@ class PlayerDataStoreImplementationTest {
     @Test
     void itShouldBePossibleToGetAGuildMembers() throws KeyNotFoundException, DuplicateKeyException {
         PlayerDataStore store = new PlayerDataStoreImplementation();
-        Guild guild = Guild.builder().name("MyGuild").build();
+        Guild guild = Guild.builder().name("MyGuild").members(new LinkedList<>()).build();
         store.insertGuild(guild);
         assertEquals(0, store.getGuildMembers(guild).size());
-        store.insertAdventurer(Adventurer.builder().name("Julien").guild(guild).build());
-        store.insertAdventurer(Adventurer.builder().name("Yoann").guild(guild).build());
+        guild.addMember(Adventurer.builder().name("Julien").build());
+        guild.addMember(Adventurer.builder().name("Yoann").build());
+        store.updateGuild(guild);
         assertEquals(2, store.getGuildMembers(guild).size());
     }
 
@@ -190,12 +203,12 @@ class PlayerDataStoreImplementationTest {
         PlayerDataStore store = new PlayerDataStoreImplementation();
         Party party = Party.builder()
                 .name("PartyHard")
-                .retputation(0).build();
+                .reputation(0).build();
         store.insertParty(party);
-        Party updatedParty = party.toBuilder().retputation(Integer.MAX_VALUE).build();
+        Party updatedParty = party.toBuilder().reputation(Integer.MAX_VALUE).build();
         store.updateParty(updatedParty);
         Party loaded = store.loadPartyByName("PartyHard");
-        assertEquals(Integer.MAX_VALUE, loaded.getRetputation());
+        assertEquals(Integer.MAX_VALUE, loaded.getReputation());
         assertEquals(updatedParty, loaded);
     }
 
