@@ -8,6 +8,7 @@ import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
 
 import java.security.KeyStoreException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,8 +33,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
                 .values()
                 .stream()
                 .map(adventurer -> {
-                    Adventurer clone = adventurer.toBuilder().build();
-                    return clone;
+                    return adventurer.toBuilder().build();
                 }).collect(Collectors.toList());
     }
 
@@ -52,8 +52,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
         if(adventurer == null){
             throw new KeyNotFoundException("Could not find adventurer " + name);
         }
-        Adventurer clone = adventurer.toBuilder().build();
-        return clone;
+        return adventurer.toBuilder().build();
     }
 
     @Override
@@ -98,22 +97,14 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
 
     @Override
     public List<String> getAllClass() {
-        return storeClass
-                .stream()
-                .map(klass -> {
-                    String clone = klass.toString();
-                    return clone;
-                }).collect(Collectors.toList());
+        return new ArrayList<>(storeClass);
     }
 
     @Override
     public List<String> getAllRace() {
         return storeRace
                 .stream()
-                .map(race -> {
-                    String clone = race.toString();
-                    return clone;
-                }).collect(Collectors.toList());
+                .map(String::toString).collect(Collectors.toList());
     }
 
     @Override
@@ -122,8 +113,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
                 .values()
                 .stream()
                 .map(guild -> {
-                    Guild clone = guild.toBuilder().build();
-                    return clone;
+                    return guild.toBuilder().build();
                 }).collect(Collectors.toList());
     }
 
@@ -142,8 +132,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
         if(guild == null){
             throw new KeyNotFoundException("Could not find guild " + name);
         }
-        Guild clone = guild.toBuilder().build();
-        return clone;
+        return guild.toBuilder().build();
     }
 
     @Override
@@ -161,11 +150,10 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
         if(storeGuilds.get(guild.getName()) == null){
             throw new KeyNotFoundException("Could not find guild " + guild.getName());
         }
-        List<Adventurer> guildMembers = guild.getMembers()
+        return guild.getMembers()
                 .stream()
                 .map(adventurer -> adventurer.toBuilder().build())
                 .collect(Collectors.toList());
-        return guildMembers;
 
     }
 
@@ -175,8 +163,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
                 .values()
                 .stream()
                 .map(party -> {
-                    Party clone = party.toBuilder().build();
-                    return clone;
+                    return party.toBuilder().build();
                 }).collect(Collectors.toList());
     }
 
@@ -195,8 +182,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
         if(party == null){
             throw new KeyNotFoundException("Could not find party " + name);
         }
-        Party clone = party.toBuilder().build();
-        return clone;
+        return party.toBuilder().build();
     }
 
     @Override
@@ -227,8 +213,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
                 .values()
                 .stream()
                 .map(quest -> {
-                    Quest clone = quest.toBuilder().build();
-                    return clone;
+                    return quest.toBuilder().build();
                 }).collect(Collectors.toList());
     }
 
@@ -246,8 +231,7 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
         if(quest == null){
             throw new KeyNotFoundException("Could not find quest n°" + id);
         }
-        Quest clone = quest.toBuilder().build();
-        return clone;
+        return quest.toBuilder().build();
     }
 
     public void updateQuest(Quest quest) throws KeyNotFoundException {
