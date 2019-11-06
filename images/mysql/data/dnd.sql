@@ -147,11 +147,11 @@ INSERT INTO race (id) VALUE ('Half-Orc');
 INSERT INTO race (id) VALUE ('Human');
 INSERT INTO race (id) VALUE ('Tiefling');
 
-INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (1, 'Retrouver le chat de Yoann', 'Chers aventuriers, mon chat s\'est perdu dans la forêt au sud du village. Pourriez-vous le retrouver ?', 30, 30);
+INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (1, 'Retrouver le chat de Yoann', 'Chers aventuriers, mon chat s\'est perdu dans la foret au sud du village. Pourriez-vous le retrouver ?', 30, 30);
 INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (2, 'Du fer pour le forgeron', 'Noble aventuriers, nous sommes manquons de fer dans ma forge. Pourriez-vous allez en chercher dans les mines de la montages du nord.\n P.S. faites attention aux trolls', 50, 50);
-INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (3, 'Une journée aux champs', 'Mon grand-père vient de se bloquer le dos, pourriez-vous le remplacer pour labourrer mes champs pendant une journée ?', 0, 150);
-INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (4, 'Distribution de tracts', 'Chers camarades, notre parti cherche des bénévoles pour distribuer nos tracts pour la campagne éléctorale approchant à grand pas.', 0, 30);
+INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (3, 'Une journee aux champs', 'Mon grand-pere vient de se bloquer le dos, pourriez-vous le remplacer pour labourrer mes champs pendant une journee ?', 0, 150);
+INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (4, 'Distribution de tracts', 'Chers camarades, notre parti cherche des benevoles pour distribuer nos tracts pour la prochaine campagne electorale.', 0, 30);
 INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (5, 'Faire le gai', 'Bonjour, j\'en ai marre d\'attendre nuits et jours devant l\'entrée de mon donjon. Pourriez-vous me remplacer pendant une semaine ?', 100, 30);
-INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (6, 'L\'armée des slimes', 'Suite à une erreur dans le dosage, notre fabrique s\'est mise à fabriquer des smlimes à la place de potions. Pourriez-vous s\'il vous plait venir la déslimiser ?', 100, 200);
-INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (7, 'Sauvez la princesse !', 'La princesse Lauris à été enlevée ! Sauvez-là avant que l\'empire du mal ne nous demande une rançon.', 50000, 10000);
-INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (8, 'Mort au roi', 'Pourriez-vous s\'il vous plait changer de dirigeant. Sa stratégie colonialiste ', 30, 30);
+INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (6, 'L\'armee des slimes', 'Suite à une erreur dans le dosage, notre fabrique s\'est mise à fabriquer des smlimes a la place de potions. Pourriez-vous s\'il vous plait venir la deslimiser ?', 100, 200);
+INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (7, 'Sauvez la princesse !', 'La princesse Lauris à ete enlevee ! Sauvez-la avant que l\'empire du mal ne nous demande une rancon.', 50000, 10000);
+INSERT INTO quest (id, objective, description, rewardGold, rewardExp) VALUE (8, 'Changer de roi', 'Pourriez-vous s\'il vous plait changer de dirigeant. Sa strategie colonialiste empeche mon pays d\'etre prospere. \n Le roi du mal', 30, 30);
