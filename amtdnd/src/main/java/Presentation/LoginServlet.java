@@ -1,6 +1,8 @@
 package Presentation;
 
 import business.AuthenticationService;
+import datastore.exception.KeyNotFoundException;
+import integration.AdventurerDAO;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -29,25 +31,17 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("UserPsw");
 
         //ToDo Connexion a ce qui se connecte à la DB
-        String pwdHash = "";
+
+        String pwdHash = null;
         try {
-            Context context = new InitialContext();
-            DataSource dataSource = (DataSource) context.lookup("java:comp/env/jdbc/myDB");
-            Connection conn = dataSource.getConnection();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT password FROM player WHERE name = user");
-            pwdHash = rs.toString();
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (Exception e) {
+            pwdHash = new AdventurerDAO().findById(user).getPassword();
+        } catch (KeyNotFoundException e) {
             e.printStackTrace();
         }
 
-
-        if(new AuthenticationService().checkPassword(password, pwdHash)) {
+        if(pwdHash != null && new AuthenticationService().checkPassword(password, pwdHash)) {
             pw.println("Login Success...!");
-            request.getSession().setAttribute("principal", user);
+            request.getSession().setAttribute("user", user);
             response.sendRedirect("/index");
         } else {
             pw.println("Login Failed...!");
