@@ -81,6 +81,44 @@ public class AdventurerDAO implements IAdventurerDAO {
         }
     }
 
+    public Adventurer login(String nom, String pw) throws KeyNotFoundException {
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = con.prepareStatement("SELECT (id, " +
+                    "gold, strength, dexterity, constitution, intelligence," +
+                    "wisdom, charisma, experience, spendpoints, fkRace, fkClasse  FROM player WHERE id = ? AND " +
+                    "password = ?;");
+            statement.setString(1, nom);
+            statement.setString(2, pw);
+            ResultSet rs = statement.executeQuery();
+            boolean hasRecord = rs.next();
+            if(!hasRecord){
+                throw new KeyNotFoundException("Adventurer name or password is invalid ");
+            }
+            Adventurer existingAdventurer = Adventurer.builder()
+                    .name(rs.getString(1))
+                    .gold(rs.getLong(2))
+                    .str(rs.getInt(3))
+                    .dex(rs.getInt(4))
+                    .con(rs.getInt(5))
+                    .inte(rs.getInt(6))
+                    .wis(rs.getInt(7))
+                    .cha(rs.getInt(8))
+                    .experience(rs.getInt(9))
+                    .spendpoints(rs.getInt(10))
+                    .race(rs.getString(11))
+                    .klass(rs.getString(12))
+                    .build();
+            return existingAdventurer;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
+
     @Override
     public void update(Adventurer entity) throws KeyNotFoundException {
         Connection con = null;
