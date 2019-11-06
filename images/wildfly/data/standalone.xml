@@ -145,14 +145,14 @@
         <subsystem xmlns="urn:jboss:domain:core-management:1.0"/>
         <subsystem xmlns="urn:jboss:domain:datasources:5.0">
             <datasources>
-                <!--<datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
+                <datasource jndi-name="java:jboss/datasources/ExampleDS" pool-name="ExampleDS" enabled="true" use-java-context="true">
                     <connection-url>jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE</connection-url>
                     <driver>h2</driver>
                     <security>
                         <user-name>sa</user-name>
                         <password>sa</password>
                     </security>
-                </datasource>-->
+                </datasource>
 				<datasource jta="true" jndi-name="java:/jdbc/dnd" pool-name="dndDS" enabled="true" use-ccm="true">
 					<connection-url>jdbc:mysql://192.168.99.100:3306/dnd</connection-url>
 					<driver-class>com.mysql.jdbc.Driver</driver-class>
@@ -168,9 +168,9 @@
 					</validation>
 				</datasource>
                 <drivers>
-                    <!--<driver name="h2" module="com.h2database.h2">
+                    <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
-                    </driver>-->
+                    </driver>
 					<driver name="mysql" module="com.mysql">
                         <driver-class>com.mysql.cj.jdbc.Driver</driver-class>
                         <xa-datasource-class>com.mysql.cj.jdbc.MysqlXADataSource</xa-datasource-class>
@@ -482,7 +482,7 @@
             <server name="default-server">
                 <http-listener name="default" socket-binding="http" redirect-socket="https" enable-http2="true"/>
                 <https-listener name="https" socket-binding="https" security-realm="ApplicationRealm" enable-http2="true"/>
-                <host name="default-host" alias="localhost">
+                <host name="default-host" alias="192.168.99.100">
                     <location name="/" handler="welcome-content"/>
                     <http-invoker security-realm="ApplicationRealm"/>
                 </host>

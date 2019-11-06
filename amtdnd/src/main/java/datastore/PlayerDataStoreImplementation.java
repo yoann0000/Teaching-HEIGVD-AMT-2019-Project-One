@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 
 public class PlayerDataStoreImplementation implements PlayerDataStore {
 
-    public static final boolean INCLUDE_DELETED = true;
-
     ConcurrentHashMap<String, Adventurer> storeAdventurers = new ConcurrentHashMap<String, Adventurer>();
     ConcurrentHashMap<String, Guild> storeGuilds = new ConcurrentHashMap<String, Guild>();
     ConcurrentHashMap<String, Party> storeParties = new ConcurrentHashMap<String, Party>();
