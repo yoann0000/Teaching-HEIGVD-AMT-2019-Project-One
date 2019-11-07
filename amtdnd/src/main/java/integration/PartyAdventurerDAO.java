@@ -17,7 +17,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PartyAdventurerDAO {
+@Stateless
+public class PartyAdventurerDAO implements IPartyAdventurerDAO{
 
     @Resource(lookup = "java:/jdbc/dnd")
     DataSource dataSource;
@@ -25,12 +26,12 @@ public class PartyAdventurerDAO {
     @EJB
     IAuthenticationService authentificationService;
 
-    List<Adventurer> findPartyMembersById(String id) {
+    public List<Adventurer> findPartyMembersById(String id) {
         Connection con = null;
         try{
             con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement("SELECT player.id, gold, strength," +
-                    "dexterity, constitution, intelligence, wisdom, charisma, esperience, spendpoints, fkRace," +
+                    "dexterity, constitution, intelligence, wisdom, charisma, experience, spendpoints, fkRace," +
                     "fkClasse FROM player INNER JOIN playerParty " +
                     "ON player.id = playerParty.fkPlayer WHERE fkParty = ?;");
             statement.setString(1, id);
@@ -60,7 +61,7 @@ public class PartyAdventurerDAO {
         }
     }
 
-    List<Party> findPlayerPartiesById(String id) {
+    public List<Party> findPlayerPartiesById(String id) {
         Connection con = null;
         try{
             con = dataSource.getConnection();

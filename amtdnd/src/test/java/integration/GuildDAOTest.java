@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
+import java.security.Key;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -53,5 +54,36 @@ public class GuildDAOTest {
         assertEquals(guild, guildLoaded);
         assertSame(guild, guildCreated);
         assertNotSame(guild, guildLoaded);
+    }
+
+    @Test
+    @Transactional(TransactionMode.COMMIT)
+    public void itShouldBePossibleToDeleteAGuild() throws DuplicateKeyException, KeyNotFoundException{
+        Guild guild = Guild.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
+                new LinkedList<Adventurer>()).build();
+        Guild guildCreated = guildDAO.create(guild);
+        assertEquals(guild, guildCreated);
+        guildDAO.deleteById(guildCreated.getName());
+        boolean hasThrown = false;
+        try{
+            Guild guildLoaded = guildDAO.findById(guildCreated.getName());
+        }catch (KeyNotFoundException e){
+            hasThrown = true;
+        }
+        assertTrue(hasThrown);
+    }
+
+    @Test
+    @Transactional(TransactionMode.COMMIT)
+    public void itShouldBePossibleToUpdateAGuild() throws DuplicateKeyException, KeyNotFoundException{
+        Guild guild = Guild.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
+                new LinkedList<Adventurer>()).build();
+        Guild guildCreated = guildDAO.create(guild);
+        Guild guildModified = guild.toBuilder().reputation(1991).build();
+        guildDAO.update(guildModified);
+        Guild guildModifiedInDB = guildDAO.findById(guild.getName());
+        assertEquals(guildModified, guildModifiedInDB);
+        assertNotEquals(guildCreated, guildModifiedInDB);
+        assertEquals(1991, guildModifiedInDB.getReputation());
     }
 }
