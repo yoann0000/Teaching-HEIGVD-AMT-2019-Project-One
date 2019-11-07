@@ -1,6 +1,8 @@
 package integration;
 
+import Model.Adventurer;
 import Model.Guild;
+import business.IAuthenticationService;
 import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
@@ -17,7 +19,9 @@ import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -29,16 +33,6 @@ public class GuildDAOTest {
 
     @EJB
     IGuildDAO guildDAO;
-
-    /*
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addClass(GuildDAO.class)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-    }
-
-     */
 
     @Test
     @Transactional(TransactionMode.COMMIT)

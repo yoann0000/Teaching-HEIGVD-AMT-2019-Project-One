@@ -8,6 +8,7 @@ import datastore.exception.KeyNotFoundException;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -25,6 +25,9 @@ public class GuildDAO implements IGuildDAO {
     @EJB
     IAuthenticationService authentificationService;
 
+    @EJB
+    IGuildAdventurerDAO guildAdventurerDAO;
+
     @Override
     public Guild create(Guild entity) throws DuplicateKeyException {
         Connection con = null;
@@ -60,11 +63,10 @@ public class GuildDAO implements IGuildDAO {
                     .reputation(rs.getInt(2))
                     .members(new LinkedList<Adventurer>())
                     .build();
-            con.close();
-            GuildAdventurerDAO members = new GuildAdventurerDAO();
-            List<Adventurer> adventurers = members.findMembersById(id);
-            for(Adventurer a : adventurers){
-                existingGuild.addMember(a);
+            ConnectionCloser.closeConnection(con);
+            List<Adventurer> members = guildAdventurerDAO.findMembersById(id);
+            for(Adventurer member : members){
+                existingGuild.addMember(member);
             }
             return existingGuild;
         }catch (SQLException e) {

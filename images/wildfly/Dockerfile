@@ -1,4 +1,4 @@
-FROM jboss/wildfly:14.0.1.Final
+FROM jboss/wildfly:15.0.0.Final
 
 MAINTAINER Julien Rod <julien.rod@heig-vd.ch>
 

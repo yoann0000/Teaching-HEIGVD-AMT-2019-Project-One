@@ -7,12 +7,14 @@ import datastore.exception.KeyNotFoundException;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Stateless
 public class AdventurerDAO implements IAdventurerDAO {
 
     @Resource(lookup = "java:/jdbc/dnd")
@@ -49,7 +51,7 @@ public class AdventurerDAO implements IAdventurerDAO {
         Connection con = null;
         try{
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("SELECT (id, " +
+            PreparedStatement statement = con.prepareStatement("SELECT (id, password, " +
                     "gold, strength, dexterity, constitution, intelligence," +
                     "wisdom, charisma, experience, spendpoints, fkRace, fkClasse  FROM player WHERE id = ?;");
             statement.setString(1, id);
@@ -60,55 +62,18 @@ public class AdventurerDAO implements IAdventurerDAO {
             }
             Adventurer existingAdventurer = Adventurer.builder()
                     .name(rs.getString(1))
-                    .gold(rs.getLong(2))
-                    .str(rs.getInt(3))
-                    .dex(rs.getInt(4))
-                    .con(rs.getInt(5))
-                    .inte(rs.getInt(6))
-                    .wis(rs.getInt(7))
-                    .cha(rs.getInt(8))
-                    .experience(rs.getInt(9))
-                    .spendpoints(rs.getInt(10))
-                    .race(rs.getString(11))
-                    .klass(rs.getString(12))
-                    .build();
-            return existingAdventurer;
-        }catch (SQLException e) {
-            e.printStackTrace();
-            throw new Error(e);
-        } finally {
-            ConnectionCloser.closeConnection(con);
-        }
-    }
-
-    public Adventurer login(String nom, String pw) throws KeyNotFoundException {
-        Connection con = null;
-        try{
-            con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("SELECT (id, " +
-                    "gold, strength, dexterity, constitution, intelligence," +
-                    "wisdom, charisma, experience, spendpoints, fkRace, fkClasse  FROM player WHERE id = ? AND " +
-                    "password = ?;");
-            statement.setString(1, nom);
-            statement.setString(2, pw);
-            ResultSet rs = statement.executeQuery();
-            boolean hasRecord = rs.next();
-            if(!hasRecord){
-                throw new KeyNotFoundException("Adventurer name or password is invalid ");
-            }
-            Adventurer existingAdventurer = Adventurer.builder()
-                    .name(rs.getString(1))
-                    .gold(rs.getLong(2))
-                    .str(rs.getInt(3))
-                    .dex(rs.getInt(4))
-                    .con(rs.getInt(5))
-                    .inte(rs.getInt(6))
-                    .wis(rs.getInt(7))
-                    .cha(rs.getInt(8))
-                    .experience(rs.getInt(9))
-                    .spendpoints(rs.getInt(10))
-                    .race(rs.getString(11))
-                    .klass(rs.getString(12))
+                    .password(rs.getString(2))
+                    .gold(rs.getLong(3))
+                    .str(rs.getInt(4))
+                    .dex(rs.getInt(5))
+                    .con(rs.getInt(6))
+                    .inte(rs.getInt(7))
+                    .wis(rs.getInt(8))
+                    .cha(rs.getInt(9))
+                    .experience(rs.getInt(10))
+                    .spendpoints(rs.getInt(11))
+                    .race(rs.getString(12))
+                    .klass(rs.getString(13))
                     .build();
             return existingAdventurer;
         }catch (SQLException e) {
@@ -124,21 +89,22 @@ public class AdventurerDAO implements IAdventurerDAO {
         Connection con = null;
         try{
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("UPDATE player SET gold = ?, strength = ?" +
+            PreparedStatement statement = con.prepareStatement("UPDATE player SET password = ?, gold = ?, strength = ?" +
                     ", dexterity = ?, constitution = ?, intelligence = ?, wisdom = ?, charisma = ?" +
                     ", experience = ?, spendpoints = ?, fkRace = ?, fkClasse = ? WHERE id = ?;");
-            statement.setLong(1, entity.getGold());
-            statement.setInt(2, entity.getStr());
-            statement.setInt(3, entity.getDex());
-            statement.setInt(4, entity.getCon());
-            statement.setInt(5, entity.getInte());
-            statement.setInt(6, entity.getWis());
-            statement.setInt(7, entity.getCha());
-            statement.setInt(8, entity.getExperience());
-            statement.setInt(9, entity.getSpendpoints());
-            statement.setString(10, entity.getRace());
-            statement.setString(11, entity.getKlass());
-            statement.setString(12, entity.getName());
+            statement.setString(1, entity.getPassword());
+            statement.setLong(2, entity.getGold());
+            statement.setInt(3, entity.getStr());
+            statement.setInt(4, entity.getDex());
+            statement.setInt(5, entity.getCon());
+            statement.setInt(6, entity.getInte());
+            statement.setInt(7, entity.getWis());
+            statement.setInt(8, entity.getCha());
+            statement.setInt(9, entity.getExperience());
+            statement.setInt(10, entity.getSpendpoints());
+            statement.setString(11, entity.getRace());
+            statement.setString(12, entity.getKlass());
+            statement.setString(13, entity.getName());
             int numberOfUpdatedAdventurers = statement.executeUpdate();
             if(numberOfUpdatedAdventurers != 1){
                 throw new KeyNotFoundException("Could not find adventurer " + entity.getName());

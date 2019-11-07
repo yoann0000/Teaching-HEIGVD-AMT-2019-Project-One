@@ -11,6 +11,7 @@ import javafx.util.Pair;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.security.KeyException;
 import java.sql.Connection;

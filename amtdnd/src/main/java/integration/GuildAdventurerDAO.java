@@ -6,6 +6,8 @@ import business.IAuthenticationService;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.Local;
+import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +16,8 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class GuildAdventurerDAO {
+@Stateless
+public class GuildAdventurerDAO implements IGuildAdventurerDAO{
 
     @Resource(lookup = "java:/jdbc/dnd")
     DataSource dataSource;
@@ -22,7 +25,7 @@ public class GuildAdventurerDAO {
     @EJB
     IAuthenticationService authentificationService;
 
-    List<Adventurer> findMembersById(String id) {
+    public List<Adventurer> findMembersById(String id) {
         Connection con = null;
         try{
             con = dataSource.getConnection();
@@ -49,7 +52,7 @@ public class GuildAdventurerDAO {
             }
             return members;
         }catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace( );
             throw new Error(e);
         } finally {
             ConnectionCloser.closeConnection(con);

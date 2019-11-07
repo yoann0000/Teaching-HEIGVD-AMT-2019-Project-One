@@ -8,12 +8,14 @@ import datastore.exception.KeyNotFoundException;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Stateless
 public class QuestDAO implements IQuestDAO {
 
     @Resource(lookup = "java:/jdbc/dnd")
