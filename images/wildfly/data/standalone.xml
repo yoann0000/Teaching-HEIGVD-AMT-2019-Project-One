@@ -154,7 +154,7 @@
                     </security>
                 </datasource>
 				<datasource jta="true" jndi-name="java:/jdbc/dnd" pool-name="dndDS" enabled="true" use-ccm="true">
-					<connection-url>jdbc:mysql://192.168.99.100:3306/dnd</connection-url>
+					<connection-url>jdbc:mysql://db:3306/dnd</connection-url>
 					<driver-class>com.mysql.jdbc.Driver</driver-class>
 					<driver>mysql</driver>
 					<security>

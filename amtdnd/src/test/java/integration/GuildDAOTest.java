@@ -2,6 +2,7 @@ package integration;
 
 import Model.Guild;
 import datastore.exception.DuplicateKeyException;
+import datastore.exception.KeyNotFoundException;
 import org.arquillian.container.chameleon.deployment.api.DeploymentParameters;
 import org.arquillian.container.chameleon.deployment.maven.MavenBuild;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -17,6 +18,8 @@ import org.junit.runner.RunWith;
 import javax.ejb.EJB;
 import java.sql.SQLException;
 import java.util.LinkedList;
+
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 @MavenBuild
@@ -40,10 +43,21 @@ public class GuildDAOTest {
     @Test
     @Transactional(TransactionMode.COMMIT)
     public void itShouldBePossibleToCreateAGuild()  throws DuplicateKeyException {
-        String test = "Test_" + System.currentTimeMillis();
-        Guild guild = Guild.builder().name(test).reputation(0).members(
+        Guild guild = Guild.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
                 new LinkedList<>()).build();
         guildDAO.create(guild);
     }
 
+    @Test
+    @Transactional(TransactionMode.COMMIT)
+    public void itShouldBePossibleToCreateAndRetrieveAGuild() throws DuplicateKeyException, KeyNotFoundException {
+        Guild guild = Guild.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
+                new LinkedList<>()).build();
+        Guild guildCreated = guildDAO.create(guild);
+        Guild guildLoaded = guildDAO.findById(guildCreated.getName());
+        assertEquals(guild, guildCreated);
+        assertEquals(guild, guildLoaded);
+        assertSame(guild, guildCreated);
+        assertNotSame(guild, guildLoaded);
+    }
 }

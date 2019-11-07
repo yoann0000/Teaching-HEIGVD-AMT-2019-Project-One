@@ -1,5 +1,6 @@
 package integration;
 
+import Model.Adventurer;
 import Model.Guild;
 import business.IAuthenticationService;
 import datastore.exception.DuplicateKeyException;
@@ -13,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 @Stateless
 public class GuildDAO implements IGuildDAO {
@@ -47,7 +50,7 @@ public class GuildDAO implements IGuildDAO {
             PreparedStatement statement = con.prepareStatement("SELECT id, reputation FROM guild WHERE id = ?;");
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
-            GuildAdventurerDAO members = new GuildAdventurerDAO();
+
             boolean hasRecord = rs.next();
             if(!hasRecord){
                 throw new KeyNotFoundException("Could not find guild " + id);
@@ -55,14 +58,19 @@ public class GuildDAO implements IGuildDAO {
             Guild existingGuild = Guild.builder()
                     .name(rs.getString(1))
                     .reputation(rs.getInt(2))
-                    .members(members.findMembersById(id))
+                    .members(new LinkedList<Adventurer>())
                     .build();
+            con.close();
+            GuildAdventurerDAO members = new GuildAdventurerDAO();
+            List<Adventurer> adventurers = members.findMembersById(id);
+            for(Adventurer a : adventurers){
+                existingGuild.addMember(a);
+            }
             return existingGuild;
         }catch (SQLException e) {
             e.printStackTrace();
-            throw new Error(e);
-        } finally {
             ConnectionCloser.closeConnection(con);
+            throw new Error(e);
         }
     }
 
