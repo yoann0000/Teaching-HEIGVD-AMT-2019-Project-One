@@ -237,17 +237,18 @@ class PlayerDataStoreImplementationTest {
     }
 
     @Test
-    void itShouldBePossibleToStoreAndRetrieveQuests() throws DuplicateKeyException{
+    void itShouldBePossibleToStoreAndRetrieveQuests() throws DuplicateKeyException, KeyNotFoundException {
         PlayerDataStore store = new PlayerDataStoreImplementation();
         assertEquals(0, store.getAllQuests().size());
-
-        long id1 = store.insertQuest(Quest.builder().build());
+        String t1 = "Test1";
+        String t2 = "Test2";
+        store.insertQuest(Quest.builder().objective(t1).build());
         assertEquals(1, store.getAllQuests().size());
-        assertEquals(1, id1);
+        assertEquals(t1, store.loadQuestByObjective(t1).getObjective());
 
-        long id2 = store.insertQuest(Quest.builder().build());
+        store.insertQuest(Quest.builder().objective(t2).build());
         assertEquals(2, store.getAllQuests().size());
-        assertEquals(2, id2);
+        assertEquals(t2, store.loadQuestByObjective(t2).getObjective());
     }
 
     @Test
@@ -255,19 +256,20 @@ class PlayerDataStoreImplementationTest {
         PlayerDataStore store = new PlayerDataStoreImplementation();
         Quest q1 = Quest.builder().objective("tester").build();
         Quest q2 = Quest.builder().objective("le comportement").build();
-        long id1 = store.insertQuest(q1);
-        long id2 = store.insertQuest(q2);
-        assertEquals(id1, store.loadQuestById(1).getId());
-        assertEquals(id2, store.loadQuestById(2).getId());
+        store.insertQuest(q1);
+        store.insertQuest(q2);
+        assertEquals("tester", store.loadQuestByObjective("tester").getObjective());
+        assertEquals("le comportement", store.loadQuestByObjective("le comportement").getObjective());
     }
 
     @Test
     void getAllQuestsShouldReturnObjectClones() throws KeyNotFoundException, DuplicateKeyException {
         PlayerDataStore store = new PlayerDataStoreImplementation();
-        Quest quest = Quest.builder().build();
-        long id = store.insertQuest(quest);
-        quest.setId(id);
-        Quest questLoaded = store.loadQuestById(id);
+        String test = "Test";
+        Quest quest = Quest.builder().objective(test).description("Un test").build();
+        store.insertQuest(quest);
+        quest.setDescription("Ceci est un test");
+        Quest questLoaded = store.loadQuestByObjective(test);
         assertNotSame(quest, questLoaded);
         assertEquals(quest, questLoaded);
     }
@@ -275,14 +277,16 @@ class PlayerDataStoreImplementationTest {
     @Test
     void itShouldBePossibleToUpdateAQuest() throws KeyNotFoundException, DuplicateKeyException{
         PlayerDataStore store = new PlayerDataStoreImplementation();
+        String test = "Test";
         Quest quest = Quest.builder()
-                .objective("Ramasser des champignons")
+                .objective(test)
+                .description("Ramasser des champignons")
                 .build();
-        long id = store.insertQuest(quest);
-        Quest updatedQuest= quest.toBuilder().objective("Ramasser des bolets").id(id).build();
+        store.insertQuest(quest);
+        Quest updatedQuest= quest.toBuilder().description("Ramasser des bolets").objective(test).build();
         store.updateQuest(updatedQuest);
-        Quest loaded = store.loadQuestById(id);
-        assertEquals("Ramasser des bolets", loaded.getObjective());
+        Quest loaded = store.loadQuestByObjective(test);
+        assertEquals("Ramasser des bolets", loaded.getDescription());
         assertEquals(updatedQuest, loaded);
     }
 }

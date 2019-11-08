@@ -1,6 +1,5 @@
 package integration;
 
-import Model.Guild;
 import Model.Quest;
 import business.IAuthenticationService;
 import datastore.exception.DuplicateKeyException;
@@ -29,13 +28,12 @@ public class QuestDAO implements IQuestDAO {
         Connection con = null;
         try {
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("INSERT INTO quest (id, objective, description," +
-                    "rewardGold, rewardExp) VALUES (?, ?, ?, ?, ?);");
-            statement.setLong(1, entity.getId());
-            statement.setString(2, entity.getObjective());
-            statement.setString(3, entity.getDescription());
-            statement.setInt(4, entity.getGold());
-            statement.setInt(5, entity.getExp());
+            PreparedStatement statement = con.prepareStatement("INSERT INTO quest (id, description," +
+                    "rewardGold, rewardExp) VALUES (?, ?, ?, ?);");
+            statement.setString(1, entity.getObjective());
+            statement.setString(2, entity.getDescription());
+            statement.setInt(3, entity.getGold());
+            statement.setInt(4, entity.getExp());
             statement.execute();
             return entity;
         }catch (SQLException e){
@@ -47,24 +45,23 @@ public class QuestDAO implements IQuestDAO {
     }
 
     @Override
-    public Quest findById(Long id) throws KeyNotFoundException {
+    public Quest findById(String objectif) throws KeyNotFoundException {
         Connection con = null;
         try{
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("SELECT id, objective, description," +
-                           "rewardGold, rewardExp FROM guild WHERE id = ?;)");
-            statement.setLong(1, id);
+            PreparedStatement statement = con.prepareStatement("SELECT id, description," +
+                           "rewardGold, rewardExp FROM quest WHERE id = ?;");
+            statement.setString(1, objectif);
             ResultSet rs = statement.executeQuery();
             boolean hasRecord = rs.next();
             if(!hasRecord){
-                throw new KeyNotFoundException("Could not find quest " + id);
+                throw new KeyNotFoundException("Could not find quest " + objectif);
             }
             Quest existingQuest = Quest.builder()
-                    .id(rs.getLong(1))
-                    .objective(rs.getString(2))
-                    .description(rs.getString(3))
-                    .gold(rs.getInt(4))
-                    .exp(rs.getInt(5))
+                    .objective(rs.getString(1))
+                    .description(rs.getString(2))
+                    .gold(rs.getInt(3))
+                    .exp(rs.getInt(4))
                     .build();
             return existingQuest;
         }catch (SQLException e) {
@@ -80,16 +77,15 @@ public class QuestDAO implements IQuestDAO {
         Connection con = null;
         try{
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("UPDATE quest SET objective = ?," +
+            PreparedStatement statement = con.prepareStatement("UPDATE quest SET " +
                     "description = ?, rewardGold = ?, rewardExp = ? WHERE id = ?;");
-            statement.setString(1, entity.getObjective());
-            statement.setString(2, entity.getDescription());
-            statement.setInt(3, entity.getGold());
-            statement.setInt(4, entity.getExp());
-            statement.setLong(5, entity.getId());
+            statement.setString(1, entity.getDescription());
+            statement.setInt(2, entity.getGold());
+            statement.setInt(3, entity.getExp());
+            statement.setString(4, entity.getObjective());
             int numberOfUpdatedQuests = statement.executeUpdate();
             if(numberOfUpdatedQuests != 1){
-                throw new KeyNotFoundException("Could not find quest n°" + entity.getId());
+                throw new KeyNotFoundException("Could not find quest " + entity.getObjective());
             }
         }catch (SQLException e) {
             e.printStackTrace();
@@ -100,15 +96,15 @@ public class QuestDAO implements IQuestDAO {
     }
 
     @Override
-    public void deleteById(Long id) throws KeyNotFoundException {
+    public void deleteById(String objectif) throws KeyNotFoundException {
         Connection con = null;
         try{
             con = dataSource.getConnection();
             PreparedStatement statement = con.prepareStatement("DELETE FROM quest WHERE id = ?;");
-            statement.setLong(1, id);
+            statement.setString(1, objectif);
             int numberOfDeletedQuests = statement.executeUpdate();
             if(numberOfDeletedQuests != 1){
-                throw new KeyNotFoundException("Could not find quest n°" + id);
+                throw new KeyNotFoundException("Could not find quest " + objectif);
             }
         }catch (SQLException e) {
             e.printStackTrace();

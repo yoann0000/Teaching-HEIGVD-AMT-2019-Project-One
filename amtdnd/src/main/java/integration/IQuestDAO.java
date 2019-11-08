@@ -5,5 +5,5 @@ import Model.Quest;
 import javax.ejb.Local;
 
 @Local
-public interface IQuestDAO extends IDAO<Long, Quest> {
+public interface IQuestDAO extends IDAO<String, Quest> {
 }

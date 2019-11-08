@@ -19,11 +19,9 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
     ConcurrentHashMap<String, Adventurer> storeAdventurers = new ConcurrentHashMap<String, Adventurer>();
     ConcurrentHashMap<String, Guild> storeGuilds = new ConcurrentHashMap<String, Guild>();
     ConcurrentHashMap<String, Party> storeParties = new ConcurrentHashMap<String, Party>();
-    ConcurrentHashMap<Long, Quest> storeQuests = new ConcurrentHashMap<Long, Quest>();
+    ConcurrentHashMap<String, Quest> storeQuests = new ConcurrentHashMap<String, Quest>();
     List<String> storeClass = new LinkedList<String>();
     List<String> storeRace = new LinkedList<String>();
-
-    long lastQuestId = 0;
 
     @Override
     public List<Adventurer> getAllAdventurers() {
@@ -216,29 +214,30 @@ public class PlayerDataStoreImplementation implements PlayerDataStore {
     }
 
     @Override
-    public synchronized long insertQuest(Quest quest) throws DuplicateKeyException {
-        Quest storedQuest = quest.toBuilder()
-                .id(++lastQuestId).build();
-        storeQuests.put(lastQuestId, storedQuest);
-        return lastQuestId;
+    public synchronized void insertQuest(Quest quest) throws DuplicateKeyException {
+        if(storeQuests.get(quest.getObjective()) != null){
+            throw new DuplicateKeyException("Party with name " + quest.getObjective() + " already exists.");
+        }
+        Quest clone = quest.toBuilder().build();
+        storeQuests.put(quest.getObjective(), quest);
     }
 
     @Override
-    public Quest loadQuestById(long id) throws KeyNotFoundException {
-        Quest quest = storeQuests.get(id);
+    public Quest loadQuestByObjective(String objective) throws KeyNotFoundException {
+        Quest quest = storeQuests.get(objective);
         if(quest == null){
-            throw new KeyNotFoundException("Could not find quest n°" + id);
+            throw new KeyNotFoundException("Could not find quest " + objective);
         }
         return quest.toBuilder().build();
     }
 
     public void updateQuest(Quest quest) throws KeyNotFoundException {
-        Quest storedQuest = storeQuests.get(quest.getId());
+        Quest storedQuest = storeQuests.get(quest.getObjective());
         if(storedQuest == null){
-            throw new KeyNotFoundException("Could not find quest n°" + quest.getId());
+            throw new KeyNotFoundException("Could not find quest " + quest.getObjective());
         }
         Quest clone = quest.toBuilder().build();
-        storeQuests.put(quest.getId(), clone);
+        storeQuests.put(quest.getObjective(), clone);
     }
 
     public boolean addAdventurerToGuild(Adventurer adventurer, Guild guild) throws KeyNotFoundException {

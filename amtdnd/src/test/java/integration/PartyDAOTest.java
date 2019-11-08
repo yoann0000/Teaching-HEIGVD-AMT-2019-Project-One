@@ -1,7 +1,5 @@
 package integration;
 
-import Model.Adventurer;
-import Model.Guild;
 import Model.Party;
 import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
@@ -22,27 +20,25 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(Arquillian.class)
 @MavenBuild
 @DeploymentParameters(testable = true)
-
 public class PartyDAOTest {
 
     @EJB
     IPartyDAO partyDAO;
 
     @Test
-    @Transactional(TransactionMode.COMMIT)
+    @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateAParty()  throws DuplicateKeyException {
-        Party guild = Party.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
+        Party party = Party.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
                 new LinkedList<>()).build();
-        partyDAO.create(guild);
+        partyDAO.create(party);
     }
 
     @Test
-    @Transactional(TransactionMode.COMMIT)
+    @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToCreateAndRetrieveAParty() throws DuplicateKeyException, KeyNotFoundException {
         Party party = Party.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
                 new LinkedList<>()).build();
@@ -55,10 +51,10 @@ public class PartyDAOTest {
     }
 
     @Test
-    @Transactional(TransactionMode.COMMIT)
+    @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToDeleteAGuild() throws DuplicateKeyException, KeyNotFoundException{
         Party party = Party.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
-                new LinkedList<Adventurer>()).build();
+                new LinkedList<>( )).build();
         Party partyCreated = partyDAO.create(party);
         assertEquals(party, partyCreated);
         partyDAO.deleteById(partyCreated.getName());
@@ -72,10 +68,10 @@ public class PartyDAOTest {
     }
 
     @Test
-    @Transactional(TransactionMode.COMMIT)
+    @Transactional(TransactionMode.ROLLBACK)
     public void itShouldBePossibleToUpdateAGuild() throws DuplicateKeyException, KeyNotFoundException{
         Party party = Party.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
-                new LinkedList<Adventurer>()).build();
+                new LinkedList<>( )).build();
         Party partyCreated = partyDAO.create(party);
         Party partyModified = party.toBuilder().reputation(1991).build();
         partyDAO.update(partyModified);

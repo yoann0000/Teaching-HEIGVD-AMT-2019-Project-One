@@ -1,8 +1,6 @@
 package integration;
 
-import Model.Guild;
 import business.IAuthenticationService;
-import datastore.exception.KeyNotFoundException;
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
@@ -15,14 +13,15 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RaceDAO {
+@Stateless
+public class RaceDAO implements IRaceDAO {
     @Resource(lookup = "java:/jdbc/dnd")
     DataSource dataSource;
 
     @EJB
     IAuthenticationService authentificationService;
 
-    public List<String> findById() {
+    public List<String> findAll() {
         Connection con = null;
         try{
             con = dataSource.getConnection();

@@ -37,8 +37,8 @@ public interface PlayerDataStore {
 
     //Quest section
     List<Quest> getAllQuests();
-    long insertQuest(Quest quest) throws DuplicateKeyException;
-    Quest loadQuestById(long id) throws KeyNotFoundException;
+    void insertQuest(Quest quest) throws DuplicateKeyException;
+    Quest loadQuestByObjective(String objective) throws KeyNotFoundException;
     void updateQuest(Quest quest) throws KeyNotFoundException;
 
     //Relation section

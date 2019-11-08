@@ -51,9 +51,9 @@ public class AdventurerDAO implements IAdventurerDAO {
         Connection con = null;
         try{
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("SELECT (id, password, " +
+            PreparedStatement statement = con.prepareStatement("SELECT id, password, " +
                     "gold, strength, dexterity, constitution, intelligence," +
-                    "wisdom, charisma, experience, spendpoints, fkRace, fkClasse  FROM player WHERE id = ?;");
+                    "wisdom, charisma, experience, spendpoints, fkRace, fkClasse FROM player WHERE id = ?;");
             statement.setString(1, id);
             ResultSet rs = statement.executeQuery();
             boolean hasRecord = rs.next();

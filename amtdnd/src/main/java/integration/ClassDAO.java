@@ -13,14 +13,15 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ClassDAO {
+@Stateless
+public class ClassDAO implements IClassDAO {
     @Resource(lookup = "java:/jdbc/dnd")
     DataSource dataSource;
 
     @EJB
     IAuthenticationService authentificationService;
 
-    public List<String> findById() {
+    public List<String> findAll() {
         Connection con = null;
         try{
             con = dataSource.getConnection();
