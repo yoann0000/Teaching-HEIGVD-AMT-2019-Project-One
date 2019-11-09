@@ -34,7 +34,7 @@ public class Adventurer {
         gold += i;
     }
     public void addExp(int i){
-        gold += i;
+        experience += i;
     }
     public void addStr(){
         str++;

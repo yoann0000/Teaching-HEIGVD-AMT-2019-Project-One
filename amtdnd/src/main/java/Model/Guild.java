@@ -14,9 +14,6 @@ public class Guild {
     private List<Adventurer> members;
     private int reputation;
 
-    public int size(){
-        return members.size();
-    }
     public void addMember(Adventurer adventurer){
         members.add(adventurer);
     }
