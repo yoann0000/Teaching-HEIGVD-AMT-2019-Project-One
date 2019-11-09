@@ -98,7 +98,7 @@ public class PartyAdventurerDAO implements IPartyAdventurerDAO{
             return adventurer;
         }catch (SQLException e){
             e.printStackTrace();
-            throw new Error(e);
+            throw new DuplicateKeyException(adventurer.getName() + " fait déjà partie de "  +party.getName());
         }finally {
             ConnectionCloser.closeConnection(con);
         }

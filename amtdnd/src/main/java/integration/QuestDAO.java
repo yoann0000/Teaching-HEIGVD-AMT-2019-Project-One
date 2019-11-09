@@ -38,7 +38,7 @@ public class QuestDAO implements IQuestDAO {
             return entity;
         }catch (SQLException e){
             e.printStackTrace();
-            throw new Error(e);
+            throw new DuplicateKeyException(entity.getObjective() + " existe déjà.");
         }finally {
             ConnectionCloser.closeConnection(con);
         }

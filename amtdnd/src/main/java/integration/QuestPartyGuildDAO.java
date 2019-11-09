@@ -40,8 +40,8 @@ public class QuestPartyGuildDAO {
             statement.setString(3, quest.getObjective());
             statement.execute();
             return quest;
-        }catch (SQLException e){
-            e.printStackTrace();
+        }catch (SQLException e) {
+            e.printStackTrace( );
             throw new Error(e);
         }finally {
             ConnectionCloser.closeConnection(con);

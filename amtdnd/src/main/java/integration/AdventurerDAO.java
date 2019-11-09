@@ -9,10 +9,7 @@ import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 @Stateless
 public class AdventurerDAO implements IAdventurerDAO {
@@ -38,9 +35,9 @@ public class AdventurerDAO implements IAdventurerDAO {
             statement.setString(4, entity.getKlass());
             statement.execute();
             return entity;
-        }catch (SQLException e){
-            e.printStackTrace();
-            throw new Error(e);
+        }catch (SQLException e) {
+            e.printStackTrace( );
+            throw new DuplicateKeyException(entity.getName() + " existe déjà.");
         }finally {
             ConnectionCloser.closeConnection(con);
         }

@@ -39,7 +39,7 @@ public class GuildDAO implements IGuildDAO {
             return entity;
         }catch (SQLException e){
             e.printStackTrace();
-            throw new Error(e);
+            throw new DuplicateKeyException(entity.getName() + " existe déjà.");
         }finally {
             ConnectionCloser.closeConnection(con);
         }
