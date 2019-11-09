@@ -66,11 +66,12 @@ CREATE TABLE playerParty(
 );
 
 CREATE TABLE guildPartyQuest(
+	id BIGINT UNSIGNED AUTO_INCREMENT,
 	fkGuild VARCHAR(100)NOT NULL,
 	fkParty VARCHAR(100) NOT NULL,
 	fkQuest VARCHAR(100) NOT NULL,
 	temps DATETIME NOT NULL,
-	CONSTRAINT ID_guildPartyQuest PRIMARY KEY (fkGuild, fkParty, fkQuest)
+	CONSTRAINT ID_guildPartyQuest PRIMARY KEY (id)
 );
 
 -- Constraints Section
