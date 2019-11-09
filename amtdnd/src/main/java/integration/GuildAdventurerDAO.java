@@ -1,12 +1,13 @@
 package integration;
 
 import Model.Adventurer;
+import Model.Guild;
 import business.IAuthenticationService;
+import datastore.exception.KeyNotFoundException;
 
 
 import javax.annotation.Resource;
 import javax.ejb.EJB;
-import javax.ejb.Local;
 import javax.ejb.Stateless;
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -24,6 +25,46 @@ public class GuildAdventurerDAO implements IGuildAdventurerDAO{
 
     @EJB
     IAuthenticationService authentificationService;
+
+    @Override
+    public void addGuildToAdventurer(Adventurer adventurer, Guild guild)  throws KeyNotFoundException {
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = con.prepareStatement("UPDATE player SET fkGuild = ? WHERE id = ?;");
+            statement.setString(1, guild.getName());
+            statement.setString(2, adventurer.getName());
+            int numberOfUpdatedAdventurers = statement.executeUpdate();
+            if(numberOfUpdatedAdventurers != 1){
+                throw new KeyNotFoundException("Could not find adventurer " + adventurer.getName() + " or guild "
+                        + guild.getName());
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
+
+    @Override
+    public void removeGuildFromAdventurer(Adventurer adventurer) throws KeyNotFoundException {
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = con.prepareStatement("UPDATE player SET fkGuild = NULL WHERE id = ?;");
+            statement.setString(1, adventurer.getName());
+            int numberOfUpdatedAdventurers = statement.executeUpdate();
+            if(numberOfUpdatedAdventurers != 1){
+                throw new KeyNotFoundException("Could not find adventurer " + adventurer.getName());
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
 
     public List<Adventurer> findMembersById(String id) {
         Connection con = null;
