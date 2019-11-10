@@ -123,4 +123,24 @@ public class PartyAdventurerDAO implements IPartyAdventurerDAO{
             ConnectionCloser.closeConnection(con);
         }
     }
+
+    public Party getAdventurerParty(Adventurer adventurer) {
+        //FIXME
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = con.prepareStatement("SELECT FROM playerParty WHERE fkPlayer = ?;");
+            statement.setString(1, adventurer.getName());
+            ResultSet rs = statement.executeQuery();
+            return Party.builder().name(rs.getString(1))
+                    .reputation(rs.getInt(2))
+                    .members(findPartyMembersById(rs.getString(1)))
+                    .build();
+        }catch (SQLException e) {
+            e.printStackTrace();
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
 }

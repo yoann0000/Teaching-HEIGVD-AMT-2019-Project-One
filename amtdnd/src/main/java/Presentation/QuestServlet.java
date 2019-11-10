@@ -1,10 +1,9 @@
 package Presentation;
 
+import Model.Guild;
+import Model.Party;
 import datastore.exception.KeyNotFoundException;
-import integration.IAdventurerDAO;
-import integration.IGuildAdventurerDAO;
-import integration.IGuildDAO;
-import integration.IQuestDAO;
+import integration.*;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -22,16 +21,21 @@ public class QuestServlet extends HttpServlet {
     @EJB
     IQuestDAO questDAO;
     @EJB
-    IGuildDAO guildDAO;
+    IQuestPartyGuildDAO questPartyGuildDAO;
     @EJB
     IGuildAdventurerDAO guildAdventurerDAO;
+    @EJB
+    IPartyAdventurerDAO partyAdventurerDAO;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("guild", guildAdventurerDAO.findAdventurerGuild(req.getSession().getAttribute("adventurer").toString()));
+
         try {
-            req.setAttribute("guildQuests", guildDAO.findById(req.getSession().getAttribute("guild").toString()).getGuildQuests());
-            req.setAttribute("userQuests", adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).getQuests());
+            Guild guild = guildAdventurerDAO.findAdventurerGuild(req.getSession().getAttribute("adventurer").toString());
+            Party party = partyAdventurerDAO.getAdventurerParty(adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()));
+            req.setAttribute("guild", guild);
+            req.setAttribute("guildQuests", questPartyGuildDAO.getQuestsDoneByGuild(guild));
+            req.setAttribute("userQuests", questPartyGuildDAO.getQuestsDoneByParty(party));
         } catch (KeyNotFoundException e) {
             e.printStackTrace();
         }
