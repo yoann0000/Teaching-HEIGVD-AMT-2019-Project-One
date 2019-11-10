@@ -1,0 +1,43 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h3>Login Page</h3>
+
+<form method="POST" action="${pageContext.request.contextPath}/login">
+    <table>
+        <tr>
+            <td>User Name</td>
+            <td>
+                <label>
+                    <input type="text" name="userName" placeholder="username"/>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>
+                <label>
+                    <input type="password" name="password" placeholder="password"/>
+                </label>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan ="2">
+                <input type="submit" value= "Submit" />
+                <a href="${pageContext.request.contextPath}/login">Cancel</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<c:if test="${errorMessage != null}">
+    ${error}
+</c:if>
+</body>
+</html>
