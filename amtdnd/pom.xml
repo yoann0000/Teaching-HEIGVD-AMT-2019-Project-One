@@ -30,7 +30,7 @@
         <version.arquillian_universe>1.2.0.2</version.arquillian_universe>
         <version.arquillian.chameleon>1.0.0.CR6</version.arquillian.chameleon>
         <version.arquillian>1.5.0.Final</version.arquillian>
-        <arquillian.launch></arquillian.launch>
+        <arquillian.launch/>
     </properties>
     <dependencies>
         <dependency>

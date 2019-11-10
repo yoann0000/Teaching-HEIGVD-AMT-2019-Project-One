@@ -1,13 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Register</title>
 </head>
-<body>
-<h3>Login Page</h3>
+<body><h3>Register Page</h3>
 
 <form method="POST" action="${pageContext.request.contextPath}/login">
     <table>
@@ -27,11 +25,34 @@
                 </label>
             </td>
         </tr>
-
+        <tr>
+            <td>Race</td>
+            <td>
+                <label>
+                    <select name="race">
+                        <c:forEach var="race" items="${races}">
+                            <option value=" ${race} "> ${race} </option>
+                        </c:forEach>
+                    </select>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Class</td>
+            <td>
+                <label>
+                    <select name="class">
+                        <c:forEach var="class" items="${classes}">
+                            <option value=" ${class} "> ${class} </option>
+                        </c:forEach>
+                    </select>
+                </label>
+            </td>
+        </tr>
         <tr>
             <td colspan ="2">
                 <input type="submit" value= "Submit" />
-                <a href="${pageContext.request.contextPath}/login">Cancel</a>
+                <a href="${pageContext.request.contextPath}/registration">Cancel</a>
             </td>
         </tr>
     </table>
