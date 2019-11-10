@@ -1,8 +1,11 @@
 package Presentation;
 
 import Model.Adventurer;
+import business.AuthenticationService;
+import business.IAuthenticationService;
 import datastore.exception.DuplicateKeyException;
 import integration.AdventurerDAO;
+import integration.IAdventurerDAO;
 import integration.IClassDAO;
 import integration.IRaceDAO;
 
@@ -18,10 +21,16 @@ import java.io.IOException;
 public class RegistrationServlet extends HttpServlet {
 
     @EJB
+    IAuthenticationService authenticationService;
+
+    @EJB
     IClassDAO classDAO;
 
     @EJB
     IRaceDAO raceDAO;
+
+    @EJB
+    IAdventurerDAO adventurerDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -38,26 +47,24 @@ public class RegistrationServlet extends HttpServlet {
         String _class = request.getParameter("class");
         Adventurer adventurer = Adventurer.builder()
                 .name(user)
-                .password(password)
-                .dex(10)
-                .con(10)
-                .wis(10)
-                .cha(10)
-                .inte(10)
-                .str(10)
-                .gold(0)
+                .password(authenticationService.hashPassword(password))
+                .str(8)
+                .inte(8)
+                .cha(8)
+                .wis(8)
+                .con(8)
+                .dex(8)
                 .klass(_class)
                 .race(race)
-                .experience(0)
-                .spendpoints(0)
                 .build();
         try {
-            new AdventurerDAO().create(adventurer);
-            request.getSession().setAttribute("adventurer", adventurer);
+            Adventurer adventurerLoad = adventurerDAO.create(adventurer);
+            request.getSession().setAttribute("adventurer", adventurerLoad);
             response.sendRedirect(request.getContextPath() + "/home");
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
-            request.setAttribute("error", "username already exists");
+            request.getSession().setAttribute("classes", classDAO.findAll());
+            request.getSession().setAttribute("races", raceDAO.findAll());
+            request.setAttribute("error", e.getMessage());
             request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
             return;
         }

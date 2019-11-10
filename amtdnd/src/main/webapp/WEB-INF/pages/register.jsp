@@ -7,7 +7,7 @@
 </head>
 <body><h3>Register Page</h3>
 
-<form method="POST" action="${pageContext.request.contextPath}/login">
+<form method="POST" action="${pageContext.request.contextPath}/registration">
     <table>
         <tr>
             <td>User Name</td>
@@ -31,7 +31,7 @@
                 <label>
                     <select name="race">
                         <c:forEach var="race" items="${races}">
-                            <option value=" ${race} "> ${race} </option>
+                            <option value="${race}"> ${race} </option>
                         </c:forEach>
                     </select>
                 </label>
@@ -43,7 +43,7 @@
                 <label>
                     <select name="class">
                         <c:forEach var="class" items="${classes}">
-                            <option value=" ${class} "> ${class} </option>
+                            <option value="${class}"> ${class} </option>
                         </c:forEach>
                     </select>
                 </label>

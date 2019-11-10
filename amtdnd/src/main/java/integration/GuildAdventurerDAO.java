@@ -26,6 +26,9 @@ public class GuildAdventurerDAO implements IGuildAdventurerDAO{
     @EJB
     IAuthenticationService authentificationService;
 
+    @EJB
+    IGuildDAO guildDAO;
+
     @Override
     public void addGuildToAdventurer(Adventurer adventurer, Guild guild)  throws KeyNotFoundException {
         Connection con = null;
@@ -93,6 +96,28 @@ public class GuildAdventurerDAO implements IGuildAdventurerDAO{
             }
             return members;
         }catch (SQLException e) {
+            e.printStackTrace( );
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
+
+    @Override
+    public Guild findAdventurerGuild(String id) {
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = con.prepareStatement("SELECT fkGuild FROM player WHERE id = ?;");
+            statement.setString(1, id);
+            ResultSet rs = statement.executeQuery();
+            boolean hasRecord = rs.next();
+            if(!hasRecord){
+                return null;
+            }
+            Guild guild = guildDAO.findById(rs.getString(1));
+            return guild;
+        }catch (SQLException | KeyNotFoundException e) {
             e.printStackTrace( );
             throw new Error(e);
         } finally {

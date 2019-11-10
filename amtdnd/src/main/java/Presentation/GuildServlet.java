@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet(name="GuildServlet", urlPatterns = "/guild")
@@ -33,21 +34,31 @@ public class GuildServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-
+        Adventurer moi = (Adventurer)req.getSession().getAttribute("adventurer");
+        if(moi == null){
+            resp.sendRedirect(req.getContextPath() + "/login");
+        }
         String join = req.getParameter("join");
+        String quit = req.getParameter("quit");
         if(join != null){
             try {
                 guildAdventurerDAO.addGuildToAdventurer((Adventurer)req.getSession().getAttribute("adventurer"),
                         guildDAO.findById(join));
             } catch (KeyNotFoundException e) {
-                e.printStackTrace( );
+                req.setAttribute("error", e.getMessage( ));
             }
-            req.getRequestDispatcher("/WEB-INF/pages/guildprofile.jsp").forward(req, resp);
+        }else if(quit != null){
+            try {
+                guildAdventurerDAO.removeGuildFromAdventurer((Adventurer)req.getSession().getAttribute("adventurer"));
+            } catch (KeyNotFoundException e) {
+                req.setAttribute("error", e.getMessage( ));
+            }
         }
         String guild = req.getParameter("guild");
         if (guild.equals("")) {
             try {
-                guildDAO.create(Guild.builder( ).name(req.getParameter("newGuild")).build( ));
+                guildDAO.create(Guild.builder( ).name(req.getParameter("newGuild")).members(new LinkedList<>())
+                        .build( ));
                 guild = req.getParameter("newGuild");
             } catch (DuplicateKeyException e) {
                 req.setAttribute("errorMessage", true);
@@ -57,9 +68,17 @@ public class GuildServlet extends HttpServlet {
             }
         }
         List<Adventurer> members = guildAdventurerDAO.findMembersById(guild);
+        boolean isMember = false;
+        for(Adventurer a : members){
+            if(a.getName().equals(moi.getName())){
+                isMember = true;
+                break;
+            }
+        }
         try {
             req.setAttribute("guild", guildDAO.findById(guild));
         } catch (KeyNotFoundException e) {
+            req.setAttribute("isMember", isMember);
             req.setAttribute("errorMessage", true);
             req.setAttribute("error", e.getMessage( ));
             guildPage(req, resp);

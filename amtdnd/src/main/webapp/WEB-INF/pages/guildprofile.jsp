@@ -36,7 +36,12 @@
     </c:forEach>
 </table>
 <form method="POST" action="${pageContext.request.contextPath}/guild">
+    <c:if test="${isMember}">
+        <button onclick="this.form.submited=this.value;"  type="submit" name="quit" value="${guild.name}">Quit this Guild</button>
+    </c:if>
+    <c:if test="${!isMember}">
     <button onclick="this.form.submited=this.value;"  type="submit" name="join" value="${guild.name}">Join this Guild</button>
+    </c:if>
 </form>
 
 <%--For displaying Page numbers.

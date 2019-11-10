@@ -4,7 +4,9 @@ import Model.Adventurer;
 import business.AuthenticationService;
 import datastore.exception.KeyNotFoundException;
 import integration.AdventurerDAO;
+import integration.IAdventurerDAO;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +16,9 @@ import java.io.IOException;
 
 @WebServlet(name="LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
+
+    @EJB
+    IAdventurerDAO adventurerDAO;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -27,18 +32,22 @@ public class LoginServlet extends HttpServlet {
         Adventurer adventurer = null;
         String pwdHash = null;
         try {
-            adventurer = new AdventurerDAO().findById(user);
+            adventurer = adventurerDAO.findById(user);
             pwdHash = adventurer.getPassword();
         } catch (KeyNotFoundException e) {
-            e.printStackTrace();
+            invalidError(request, response);
         }
 
         if(pwdHash != null && new AuthenticationService().checkPassword(password, pwdHash)) {
             request.getSession().setAttribute("adventurer", adventurer);
             response.sendRedirect(request.getContextPath() + "/home");
         } else {
-            request.setAttribute("error", "Invalid userName or Password");
-            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
+            invalidError(request, response);
         }
+    }
+
+    private void invalidError(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("error", "Invalid userName or Password");
+        request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request, response);
     }
 }
