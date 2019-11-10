@@ -5,7 +5,6 @@ import Model.Guild;
 import business.IAuthenticationService;
 import datastore.exception.KeyNotFoundException;
 
-
 import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;

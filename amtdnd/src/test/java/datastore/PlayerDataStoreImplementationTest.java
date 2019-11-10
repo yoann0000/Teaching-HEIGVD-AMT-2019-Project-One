@@ -77,7 +77,7 @@ class PlayerDataStoreImplementationTest {
         PlayerDataStore store = new PlayerDataStoreImplementation();
         Adventurer julien = Adventurer.builder().name("Julien").build();
         store.insertAdventurer(julien);
-        assertEquals(null, store.getAdventurerGuild(julien));
+        assertNull(store.getAdventurerGuild(julien));
         Guild myGuild = Guild.builder().name("MyGuild").members(new LinkedList<>(Arrays.asList(julien))).build();
         store.insertGuild(myGuild);
         store.insertGuild(Guild.builder().name("OtherGuild").members(new LinkedList<>()).build());
