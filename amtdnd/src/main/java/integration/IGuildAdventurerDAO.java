@@ -12,5 +12,5 @@ public interface IGuildAdventurerDAO {
     void addGuildToAdventurer(Adventurer adventurer, Guild guild) throws KeyNotFoundException;
     void removeGuildFromAdventurer(Adventurer adventurer) throws KeyNotFoundException;
     List<Adventurer> findMembersById(String id);
-    Guild findAdventurerGuild(String id);
+    Guild findAdventurerGuild(String id) throws KeyNotFoundException;
 }

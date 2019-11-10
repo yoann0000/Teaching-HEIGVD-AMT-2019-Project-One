@@ -103,7 +103,7 @@ public class GuildAdventurerDAO implements IGuildAdventurerDAO{
     }
 
     @Override
-    public Guild findAdventurerGuild(String id) {
+    public Guild findAdventurerGuild(String id) throws KeyNotFoundException {
         Connection con = null;
         try{
             con = dataSource.getConnection();
@@ -118,7 +118,7 @@ public class GuildAdventurerDAO implements IGuildAdventurerDAO{
             return guild;
         }catch (SQLException | KeyNotFoundException e) {
             e.printStackTrace( );
-            throw new Error(e);
+            throw new KeyNotFoundException(e.getMessage());
         } finally {
             ConnectionCloser.closeConnection(con);
         }
