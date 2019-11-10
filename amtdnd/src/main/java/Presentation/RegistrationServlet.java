@@ -3,7 +3,10 @@ package Presentation;
 import Model.Adventurer;
 import datastore.exception.DuplicateKeyException;
 import integration.AdventurerDAO;
+import integration.IClassDAO;
+import integration.IRaceDAO;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,8 +17,16 @@ import java.io.IOException;
 @WebServlet(name="RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
 
+    @EJB
+    IClassDAO classDAO;
+
+    @EJB
+    IRaceDAO raceDAO;
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getSession().setAttribute("classes", classDAO.findAll());
+        request.getSession().setAttribute("races", raceDAO.findAll());
         request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
     }
 

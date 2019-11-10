@@ -30,7 +30,7 @@
             <td>
                 <label>
                     <select name="race">
-                        <c:forEach var="race" items="${RaceDAO.findAll}">
+                        <c:forEach var="race" items="${races}">
                             <option value=" ${race} "> ${race} </option>
                         </c:forEach>
                     </select>
@@ -42,7 +42,7 @@
             <td>
                 <label>
                     <select name="class">
-                        <c:forEach var="class" items="${ClassDAO.findAll}">
+                        <c:forEach var="class" items="${classes}">
                             <option value=" ${class} "> ${class} </option>
                         </c:forEach>
                     </select>
@@ -57,5 +57,8 @@
         </tr>
     </table>
 </form>
+<c:if test="${errorMessage != null}">
+    ${error}
+</c:if>
 </body>
 </html>
