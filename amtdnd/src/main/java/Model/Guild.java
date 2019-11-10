@@ -24,10 +24,4 @@ public class Guild {
     public void addReputation(int i){
         reputation += i;
     }
-    public void addQuest(Quest quest){
-        guildQuests.add(quest);
-    }
-    public void removeQuest(Quest quest){
-        guildQuests.remove(quest);
-    }
 }
