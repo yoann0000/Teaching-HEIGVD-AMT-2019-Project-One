@@ -2,6 +2,7 @@ package Presentation;
 
 import datastore.exception.KeyNotFoundException;
 import integration.IAdventurerDAO;
+import integration.IGuildAdventurerDAO;
 import integration.IGuildDAO;
 import integration.IQuestDAO;
 
@@ -22,9 +23,12 @@ public class QuestServlet extends HttpServlet {
     IQuestDAO questDAO;
     @EJB
     IGuildDAO guildDAO;
+    @EJB
+    IGuildAdventurerDAO guildAdventurerDAO;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("guild", guildAdventurerDAO.findAdventurerGuild(req.getSession().getAttribute("adventurer").toString()));
         try {
             req.setAttribute("guildQuests", guildDAO.findById(req.getSession().getAttribute("guild").toString()).getGuildQuests());
             req.setAttribute("userQuests", adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).getQuests());

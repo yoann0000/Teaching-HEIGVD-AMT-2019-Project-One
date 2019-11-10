@@ -10,7 +10,7 @@
 
 </c:if>
 <c:choose>
-    <c:when test="${sessionScope.get(guild) != null}">
+    <c:when test="${guild != null}">
         You must join a guild to get Quests.
         <a href="${pageContext.request.contextPath}/guild">Join a guild.</a>
     </c:when>
