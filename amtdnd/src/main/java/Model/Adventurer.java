@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @Builder(toBuilder = true)
 @Data
 @EqualsAndHashCode
@@ -21,6 +23,7 @@ public class Adventurer {
     private int cha;
     private int experience;
     private int spendpoints;
+    private List<Quest> quests;
     public int getLevel() {
         return experience == 0 ? 1 : (int) Math.floor(Math.log10(experience));
     }
@@ -56,6 +59,12 @@ public class Adventurer {
     public void addCha(){
         cha++;
         spendpoints++;
+    }
+    public void addQuest(Quest quest){
+        quests.add(quest);
+    }
+    public void removeQuest(Quest quest){
+        quests.remove(quest);
     }
 }
 

@@ -2,7 +2,6 @@ package integration;
 
 import Model.Adventurer;
 import Model.Guild;
-import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
 
 import javax.ejb.Local;

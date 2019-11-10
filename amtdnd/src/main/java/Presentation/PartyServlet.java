@@ -1,15 +1,11 @@
 package Presentation;
 
 import Model.Adventurer;
-import Model.Guild;
 import Model.Party;
-import integration.IGuildAdventurerDAO;
-import integration.IGuildDAO;
 import integration.IPartyAdventurerDAO;
 import integration.IPartyDAO;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

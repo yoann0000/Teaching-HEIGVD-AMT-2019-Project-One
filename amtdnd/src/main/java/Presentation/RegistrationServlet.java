@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @WebServlet(name="RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
@@ -25,8 +26,8 @@ public class RegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().setAttribute("classes", classDAO.findAll());
-        request.getSession().setAttribute("races", raceDAO.findAll());
+        request.setAttribute("classes", classDAO.findAll());
+        request.setAttribute("races", raceDAO.findAll());
         request.getRequestDispatcher("/WEB-INF/pages/register.jsp").forward(request, response);
     }
 
@@ -50,6 +51,7 @@ public class RegistrationServlet extends HttpServlet {
                 .race(race)
                 .experience(0)
                 .spendpoints(0)
+                .quests(new ArrayList<>())
                 .build();
         try {
             new AdventurerDAO().create(adventurer);
