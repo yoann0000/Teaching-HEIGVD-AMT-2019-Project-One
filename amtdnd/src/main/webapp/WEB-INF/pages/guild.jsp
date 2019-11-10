@@ -16,6 +16,15 @@
 <body>
 <h3>Existing Guilds</h3>
 
+<table>
+    <form method="POST" action="${pageContext.request.contextPath}/guild">
+        <tr>
+            <input type="text" name="newGuild"/>
+            <button onclick="this.form.submited=this.value;"  type="submit" name="guild" value="">Create a new guild</button>
+        </tr>
+    </form>
+</table>
+
 <table border="1" cellpadding="5" cellspacing="5">
     <tr>
         <th>Name</th>

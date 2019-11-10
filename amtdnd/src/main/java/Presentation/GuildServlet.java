@@ -2,11 +2,12 @@ package Presentation;
 
 import Model.Adventurer;
 import Model.Guild;
+import datastore.exception.DuplicateKeyException;
+import datastore.exception.KeyNotFoundException;
 import integration.IGuildAdventurerDAO;
 import integration.IGuildDAO;
 
 import javax.ejb.EJB;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,6 +28,48 @@ public class GuildServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         //source : https://stackoverflow.com/questions/31410007/how-to-do-pagination-in-jsp
+        guildPage(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+
+        String join = req.getParameter("join");
+        if(join != null){
+            try {
+                guildAdventurerDAO.addGuildToAdventurer((Adventurer)req.getSession().getAttribute("adventurer"),
+                        guildDAO.findById(join));
+            } catch (KeyNotFoundException e) {
+                e.printStackTrace( );
+            }
+            req.getRequestDispatcher("/WEB-INF/pages/guildprofile.jsp").forward(req, resp);
+        }
+        String guild = req.getParameter("guild");
+        if (guild.equals("")) {
+            try {
+                guildDAO.create(Guild.builder( ).name(req.getParameter("newGuild")).build( ));
+                guild = req.getParameter("newGuild");
+            } catch (DuplicateKeyException e) {
+                req.setAttribute("errorMessage", true);
+                req.setAttribute("error", e.getMessage( ));
+                guildPage(req, resp);
+                return;
+            }
+        }
+        List<Adventurer> members = guildAdventurerDAO.findMembersById(guild);
+        try {
+            req.setAttribute("guild", guildDAO.findById(guild));
+        } catch (KeyNotFoundException e) {
+            req.setAttribute("errorMessage", true);
+            req.setAttribute("error", e.getMessage( ));
+            guildPage(req, resp);
+            return;
+        }
+        req.setAttribute("memberList", members);
+        req.getRequestDispatcher("/WEB-INF/pages/guildprofile.jsp").forward(req, resp);
+    }
+
+    private void guildPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
         int page = 1;
         int recordsPerPage = 50;
         if(req.getParameter("page") != null)
@@ -39,14 +82,5 @@ public class GuildServlet extends HttpServlet {
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
         req.getRequestDispatcher("/WEB-INF/pages/guild.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        String guild = req.getParameter("guild");
-        List<Adventurer> members = guildAdventurerDAO.findMembersById(guild);
-        req.setAttribute("guild", guild);
-        req.setAttribute("memberList", members);
-        req.getRequestDispatcher("/WEB-INF/pages/guildprofile.jsp").forward(req, resp);
     }
 }

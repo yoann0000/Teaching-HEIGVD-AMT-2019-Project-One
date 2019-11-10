@@ -35,6 +35,9 @@
         </tr>
     </c:forEach>
 </table>
+<form method="POST" action="${pageContext.request.contextPath}/guild">
+    <button onclick="this.form.submited=this.value;"  type="submit" name="join" value="${guild.name}">Join this Guild</button>
+</form>
 
 <%--For displaying Page numbers.
 The when condition does not display a link for the current page--%>
