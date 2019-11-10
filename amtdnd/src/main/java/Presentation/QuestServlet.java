@@ -1,9 +1,7 @@
 package Presentation;
 
 import datastore.exception.KeyNotFoundException;
-import integration.IAdventurerDAO;
-import integration.IGuildDAO;
-import integration.IQuestDAO;
+import integration.*;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -17,7 +15,9 @@ import java.io.IOException;
 public class QuestServlet extends HttpServlet {
 
     @EJB
-    IAdventurerDAO adventurerDAO;
+    IQuestPartyGuildDAO questPartyGuildDAO;
+    @EJB
+    IAdventurerDAO partyDAO;
     @EJB
     IQuestDAO questDAO;
     @EJB
@@ -27,7 +27,6 @@ public class QuestServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             req.setAttribute("guildQuests", guildDAO.findById(req.getSession().getAttribute("guild").toString()).getGuildQuests());
-            req.setAttribute("userQuests", adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).getQuests());
         } catch (KeyNotFoundException e) {
             e.printStackTrace();
         }
@@ -41,15 +40,7 @@ public class QuestServlet extends HttpServlet {
 
     private void doWork(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String work = req.getParameter("ac");
-        try {
-            if (work.equals("get")) {
-                adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).addQuest(questDAO.findById(req.getAttribute("quest").toString()));
-            } else {
-                adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).removeQuest(questDAO.findById(req.getAttribute("quest").toString()));
-            }
-        } catch (KeyNotFoundException e) {
-            e.printStackTrace();
-        }
+
         req.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(req, resp);
     }
 }

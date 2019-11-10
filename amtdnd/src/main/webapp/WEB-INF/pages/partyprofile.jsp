@@ -11,11 +11,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>${guild.name}</title>
+    <title>${party.name}</title>
 </head>
 <body>
-<h1>${guild.name}</h1>
-<p>Reputation : ${guild.reputation}</p>
+<h1>${party.name}</h1>
+<p>Reputation : ${party.reputation}</p>
 <h3>Members</h3>
 
 <table border="1" cellpadding="5" cellspacing="5">
@@ -35,13 +35,13 @@
         </tr>
     </c:forEach>
 </table>
-<form method="POST" action="${pageContext.request.contextPath}/guild">
+<form method="POST" action="${pageContext.request.contextPath}/party">
     <c:choose>
         <c:when test="${isMember}">
-            <button onclick="this.form.submited=this.value;"  type="submit" name="quit" value="${guild.name}">Quit this Guild</button>
+            <button onclick="this.form.submited=this.value;"  type="submit" name="quit" value="${party.name}">Quit this Party</button>
         </c:when>
         <c:otherwise>
-            <button onclick="this.form.submited=this.value;"  type="submit" name="join" value="${guild.name}">Join this Guild</button>
+            <button onclick="this.form.submited=this.value;"  type="submit" name="join" value="${party.name}">Join this Party</button>
         </c:otherwise>
     </c:choose>
 </form>

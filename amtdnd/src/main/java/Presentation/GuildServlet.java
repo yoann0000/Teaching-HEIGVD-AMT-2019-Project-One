@@ -55,6 +55,13 @@ public class GuildServlet extends HttpServlet {
             }
         }
         String guild = req.getParameter("guild");
+        if(guild == null){
+            if(quit == null){
+                guild = join;
+            }else{
+                guild = quit;
+            }
+        }
         if (guild.equals("")) {
             try {
                 guildDAO.create(Guild.builder( ).name(req.getParameter("newGuild")).members(new LinkedList<>())
@@ -78,12 +85,12 @@ public class GuildServlet extends HttpServlet {
         try {
             req.setAttribute("guild", guildDAO.findById(guild));
         } catch (KeyNotFoundException e) {
-            req.setAttribute("isMember", isMember);
             req.setAttribute("errorMessage", true);
             req.setAttribute("error", e.getMessage( ));
             guildPage(req, resp);
             return;
         }
+        req.setAttribute("isMember", isMember);
         req.setAttribute("memberList", members);
         req.getRequestDispatcher("/WEB-INF/pages/guildprofile.jsp").forward(req, resp);
     }

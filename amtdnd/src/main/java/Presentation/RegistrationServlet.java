@@ -57,7 +57,6 @@ public class RegistrationServlet extends HttpServlet {
                 .dex(8)
                 .klass(_class)
                 .race(race)
-                .quests(new ArrayList<>())
                 .build();
         try {
             Adventurer adventurerLoad = adventurerDAO.create(adventurer);

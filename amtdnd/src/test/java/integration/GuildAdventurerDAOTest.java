@@ -102,4 +102,18 @@ public class GuildAdventurerDAOTest {
         assertEquals(adventurer1.getName(),members.get(0).getName());
         assertEquals(adventurer2.getName(),members.get(1).getName());
     }
+
+    @Test
+    @Transactional(TransactionMode.ROLLBACK)
+    public void itShouldBePossibleToKnowTheGuildOfAnAdventurer() throws KeyNotFoundException, DuplicateKeyException {
+        Guild guild = Guild.builder().name("Test_" + System.currentTimeMillis()).reputation(0).members(
+                new LinkedList<>()).build();
+        guildDAO.create(guild);
+        Adventurer adventurer = Adventurer.builder().name("Test_" + System.currentTimeMillis()).password("TestPassword")
+                .race("Gnome").klass("Wizard").build();
+        adventurerDAO.create(adventurer);
+        guildAdventurerDAO.addGuildToAdventurer(adventurer, guild);
+        Guild loadedGuild =  guildAdventurerDAO.findAdventurerGuild(adventurer.getName());
+        assertEquals(guild.getName(),loadedGuild.getName());
+    }
 }
