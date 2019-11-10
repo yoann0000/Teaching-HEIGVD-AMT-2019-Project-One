@@ -15,7 +15,7 @@
             <td>User Name</td>
             <td>
                 <label>
-                    <input type="text" name="userName" placeholder="username"/>
+                    <input type="text" name="username" placeholder="username"/>
                 </label>
             </td>
         </tr>
