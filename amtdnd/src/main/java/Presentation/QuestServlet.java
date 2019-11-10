@@ -51,9 +51,9 @@ public class QuestServlet extends HttpServlet {
         String work = req.getParameter("ac");
         try {
             if (work.equals("get")) {
-                adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).addQuest(questDAO.findById(req.getAttribute("quest").toString()));
+                questPartyGuildDAO.getQuestsDoneByGuild(guildAdventurerDAO.findAdventurerGuild(req.getSession().getAttribute("adventurer").toString()));
             } else {
-                adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString()).removeQuest(questDAO.findById(req.getAttribute("quest").toString()));
+                questPartyGuildDAO.getQuestsDoneByParty(partyAdventurerDAO.getAdventurerParty(adventurerDAO.findById(req.getSession().getAttribute("adventurer").toString())));
             }
         } catch (KeyNotFoundException e) {
             e.printStackTrace();
