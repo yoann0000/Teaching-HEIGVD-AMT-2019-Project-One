@@ -24,8 +24,6 @@ public class QuestServlet extends HttpServlet {
     @EJB
     IQuestDAO questDAO;
     @EJB
-    IQuestPartyGuildDAO questPartyGuildDAO;
-    @EJB
     IGuildAdventurerDAO guildAdventurerDAO;
     @EJB
     IPartyAdventurerDAO partyAdventurerDAO;

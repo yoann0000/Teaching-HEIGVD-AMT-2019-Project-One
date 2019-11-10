@@ -23,7 +23,6 @@ public class Adventurer {
     private int cha;
     private int experience;
     private int spendpoints;
-    private List<Quest> quests;
     public int getLevel() {
         return experience == 0 ? 1 : (int) Math.floor(Math.log10(experience));
     }

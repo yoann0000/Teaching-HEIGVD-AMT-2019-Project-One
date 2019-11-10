@@ -14,7 +14,16 @@
     <title>Parties</title>
 </head>
 <body>
-<h3>Existing Parties</h3>
+<h3>Existing Partiess</h3>
+
+<table>
+    <form method="POST" action="${pageContext.request.contextPath}/party">
+        <tr>
+            <input type="text" name="newParty"/>
+            <button onclick="this.form.submited=this.value;"  type="submit" name="party" value="">Create a new party</button>
+        </tr>
+    </form>
+</table>
 
 <table border="1" cellpadding="5" cellspacing="5">
     <tr>
