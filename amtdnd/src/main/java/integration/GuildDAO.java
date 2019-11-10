@@ -46,6 +46,61 @@ public class GuildDAO implements IGuildDAO {
     }
 
     @Override
+    public List<Guild> findAll(int offset, int limit){
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = null;
+            if(limit == 0) {
+                statement = con.prepareStatement("SELECT id, reputation FROM guild;");
+            }else{
+                statement = con.prepareStatement("SELECT id, reputation FROM guild LIMIT ? OFFSET ?;");
+                statement.setInt(1, limit);
+                statement.setInt(2, offset);
+            }
+            ResultSet rs = statement.executeQuery();
+            List<Guild> guilds = new LinkedList<>();
+            while(rs.next()){
+                Guild existingGuild = Guild.builder()
+                        .name(rs.getString(1))
+                        .reputation(rs.getInt(2))
+                        .members(new LinkedList<Adventurer>())
+                        .build();
+                guilds.add(existingGuild);
+            }
+            ConnectionCloser.closeConnection(con);
+            for(Guild g : guilds) {
+                List<Adventurer> members = guildAdventurerDAO.findMembersById(g.getName());
+                for (Adventurer member : members) {
+                    g.addMember(member);
+                }
+            }
+            return guilds;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            ConnectionCloser.closeConnection(con);
+            throw new Error(e);
+        }
+    }
+
+    @Override
+    public int nbOfRecord(){
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = con.prepareStatement("SELECT COUNT(*) FROM guild;");
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return rs.getInt(1);
+        }catch (SQLException e) {
+            e.printStackTrace();
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
+
+    @Override
     public Guild findById(String id) throws KeyNotFoundException {
         Connection con = null;
         try{

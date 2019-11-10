@@ -47,6 +47,61 @@ public class PartyDAO implements IPartyDAO {
     }
 
     @Override
+    public List<Party> findAll(int offset, int limit){
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = null;
+            if(limit == 0) {
+                statement = con.prepareStatement("SELECT id, reputation FROM party;");
+            }else{
+                statement = con.prepareStatement("SELECT id, reputation FROM party LIMIT ? OFFSET ?;");
+                statement.setInt(1, limit);
+                statement.setInt(2, offset);
+            }
+            ResultSet rs = statement.executeQuery();
+            List<Party> parties = new LinkedList<>();
+            while(rs.next()){
+                Party existingParty = Party.builder()
+                        .name(rs.getString(1))
+                        .reputation(rs.getInt(2))
+                        .members(new LinkedList<Adventurer>())
+                        .build();
+                parties.add(existingParty);
+            }
+            ConnectionCloser.closeConnection(con);
+            for(Party p : parties) {
+                List<Adventurer> members = partyAdventurerDAO.findPartyMembersById(p.getName());
+                for (Adventurer member : members) {
+                    p.addMember(member);
+                }
+            }
+            return parties;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            ConnectionCloser.closeConnection(con);
+            throw new Error(e);
+        }
+    }
+
+    @Override
+    public int nbOfRecord() {
+        Connection con = null;
+        try {
+            con = dataSource.getConnection( );
+            PreparedStatement statement = con.prepareStatement("SELECT COUNT(*) FROM party;");
+            ResultSet rs = statement.executeQuery( );
+            rs.next( );
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace( );
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
+
+    @Override
     public Party findById(String id) throws KeyNotFoundException {
         Connection con = null;
         try{
