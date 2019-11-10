@@ -14,5 +14,4 @@ public interface IPartyAdventurerDAO {
     List<Party> findPlayerPartiesById(String id);
     Adventurer create(Adventurer adventurer, Party party) throws DuplicateKeyException;
     void deleteById(Adventurer adventurer, Party party) throws KeyNotFoundException;
-    Party getAdventurerParty(Adventurer adventurer);
 }
