@@ -30,7 +30,7 @@ public class PartyAdventurerDAO implements IPartyAdventurerDAO{
         Connection con = null;
         try{
             con = dataSource.getConnection();
-            PreparedStatement statement = con.prepareStatement("SELECT player.id, gold, strength," +
+            PreparedStatement statement = con.prepareStatement("SELECT player.id, password, gold, strength," +
                     "dexterity, constitution, intelligence, wisdom, charisma, experience, spendpoints, fkRace," +
                     "fkClasse FROM player INNER JOIN playerParty " +
                     "ON player.id = playerParty.fkPlayer WHERE fkParty = ?;");
@@ -39,17 +39,18 @@ public class PartyAdventurerDAO implements IPartyAdventurerDAO{
             List<Adventurer> members = new LinkedList<>();
             while(rs.next()){
                 members.add(Adventurer.builder().name(rs.getString(1))
-                        .gold(rs.getLong(2))
-                        .str(rs.getInt(3))
-                        .dex(rs.getInt(4))
-                        .con(rs.getInt(5))
-                        .inte(rs.getInt(6))
-                        .wis(rs.getInt(7))
-                        .cha(rs.getInt(8))
-                        .experience(rs.getInt(9))
-                        .spendpoints(rs.getInt(10))
-                        .race(rs.getString(11))
-                        .klass(rs.getString(12))
+                        .password(rs.getString(2))
+                        .gold(rs.getLong(3))
+                        .str(rs.getInt(4))
+                        .dex(rs.getInt(5))
+                        .con(rs.getInt(6))
+                        .inte(rs.getInt(7))
+                        .wis(rs.getInt(8))
+                        .cha(rs.getInt(9))
+                        .experience(rs.getInt(10))
+                        .spendpoints(rs.getInt(11))
+                        .race(rs.getString(12))
+                        .klass(rs.getString(13))
                         .build());
             }
             return members;
