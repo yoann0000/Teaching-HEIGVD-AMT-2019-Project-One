@@ -14,7 +14,14 @@
     <title>Parties</title>
 </head>
 <body>
-<h3>Existing Partiess</h3>
+<nav>
+    <a href="${pageContext.request.contextPath}/home">Home</a>
+    <a href="${pageContext.request.contextPath}/guild">Guild</a>
+    <a href="${pageContext.request.contextPath}/party">Party</a>
+    <a href="${pageContext.request.contextPath}/quest">Quests</a>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a>
+</nav>
+<h3>Existing Parties</h3>
 
 <table>
     <form method="POST" action="${pageContext.request.contextPath}/party">

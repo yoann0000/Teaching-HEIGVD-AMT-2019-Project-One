@@ -7,20 +7,13 @@
     <title>Home Page</title>
 </head>
 <body>
-<ul>
-    <li>
+    <nav>
+        <a href="${pageContext.request.contextPath}/home">Home</a>
         <a href="${pageContext.request.contextPath}/guild">Guild</a>
-    </li>
-    <li>
         <a href="${pageContext.request.contextPath}/party">Party</a>
-    </li>
-    <li>
         <a href="${pageContext.request.contextPath}/quest">Quests</a>
-    </li>
-    <li>
         <a href="${pageContext.request.contextPath}/logout">Logout</a>
-    </li>
-</ul>
+    </nav>
 <br/>
 <h3>Welcome ${sessionScope.adventurer.name}</h3>
     <table>

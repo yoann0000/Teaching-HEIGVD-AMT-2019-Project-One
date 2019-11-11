@@ -5,7 +5,11 @@
     <meta charset="UTF-8">
     <title>Register</title>
 </head>
-<body><h3>Register Page</h3>
+<body>
+<nav>
+    <a href="${pageContext.request.contextPath}/login">Login</a>
+</nav>
+<h3>Register Page</h3>
 
 <form method="POST" action="${pageContext.request.contextPath}/registration">
     <table>

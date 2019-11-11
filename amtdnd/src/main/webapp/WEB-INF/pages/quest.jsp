@@ -6,6 +6,13 @@
     <title>Quest</title>
 </head>
 <body>
+<nav>
+    <a href="${pageContext.request.contextPath}/home">Home</a>
+    <a href="${pageContext.request.contextPath}/guild">Guild</a>
+    <a href="${pageContext.request.contextPath}/party">Party</a>
+    <a href="${pageContext.request.contextPath}/quest">Quests</a>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a>
+</nav>
 <c:if test="">
 
 </c:if>

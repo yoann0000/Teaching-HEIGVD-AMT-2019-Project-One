@@ -14,6 +14,13 @@
     <title>Guilds</title>
 </head>
 <body>
+<nav>
+    <a href="${pageContext.request.contextPath}/home">Home</a>
+    <a href="${pageContext.request.contextPath}/guild">Guild</a>
+    <a href="${pageContext.request.contextPath}/party">Party</a>
+    <a href="${pageContext.request.contextPath}/quest">Quests</a>
+    <a href="${pageContext.request.contextPath}/logout">Logout</a>
+</nav>
 <h3>Existing Guilds</h3>
 
 <table>
