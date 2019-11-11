@@ -69,17 +69,18 @@ public class HomeServlet extends HttpServlet {
         try {
             adventurerDAO.update(moi);
         } catch (KeyNotFoundException e) {
-            e.printStackTrace( );
+            request.setAttribute("error", e.getMessage( ));
         }
         doGet(request, response);
     }
 
-    private void deleteUserAccount(Adventurer adventurer, HttpServletRequest request, HttpServletResponse response){
+    private void deleteUserAccount(Adventurer adventurer, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             adventurerDAO.deleteById(adventurer.getName());
             response.sendRedirect(request.getContextPath() + "/logout");
         } catch (KeyNotFoundException | IOException e) {
-            e.printStackTrace( );
+            request.setAttribute("error", e.getMessage( ));
+            doGet(request, response);
         }
     }
 }

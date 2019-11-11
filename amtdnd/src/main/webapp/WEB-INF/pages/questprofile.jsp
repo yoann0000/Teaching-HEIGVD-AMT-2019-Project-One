@@ -29,6 +29,29 @@
     </tr>
 </table>
 <br/>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Reputation</th>
+    </tr>
+    <c:choose>
+        <c:when test="${guildPartyList.size() > 0}">
+            <c:forEach var="guildParty" items="${guildPartyList}">
+                <tr>
+                    <td>
+                        guildParty.guild
+                    </td>
+                    <td>
+                        guildParty.party
+                    </td>
+                </tr>
+            </c:forEach>
+        </c:when>
+        <c:otherwise>
+            <p>You don't belong to any party right now</p>
+        </c:otherwise>
+    </c:choose>
+</table>
 <a class="button" href="${pageContext.request.contextPath}/quest">Return to quests.</a>
 </body>
 </html>
