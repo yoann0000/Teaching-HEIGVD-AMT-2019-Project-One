@@ -14,18 +14,18 @@
     <a class="navbar" href="${pageContext.request.contextPath}/quest">Quests</a>
     <a class="navbar" href="${pageContext.request.contextPath}/logout">Logout</a>
 </nav>
-<h3>${quest.getObjective}</h3>
-<p>${quest.getDescription}</p>
+<h3>${quest.objective}</h3>
+<p>${quest.description}</p>
 <br/>
 <h3>Rewards</h3>
 <table>
     <tr>
         <td>Experience</td>
-        <td>${quest.getExp}</td>
+        <td>${quest.exp}</td>
     </tr>
     <tr>
         <td>Gold</td>
-        <td>${quest.getGold}</td>
+        <td>${quest.gold}</td>
     </tr>
 </table>
 <br/>
@@ -39,10 +39,10 @@
             <c:forEach var="guildParty" items="${guildPartyList}">
                 <tr>
                     <td>
-                        guildParty.guild
+                        ${guildParty.guild.name}
                     </td>
                     <td>
-                        guildParty.party
+                        ${guildParty.party.name}
                     </td>
                 </tr>
             </c:forEach>

@@ -29,7 +29,7 @@
                         <label>
                             <select required name="parties">
                                 <c:forEach var="party" items="${userParties}">
-                                    <option value="${party.name}" name="party"> ${party.name} </option>
+                                    <option value="${party.name}"> ${party.name} </option>
                                 </c:forEach>
                             </select>
                         </label>
@@ -45,11 +45,13 @@
                     <c:forEach var="quest" items="${questList}">
                         <tr>
                             <td>
-                                <form method="POST" action="${pageContext.request.contextPath}/quest">
-                                    <input onclick="this.form.submited=this.value;" name="quest" type="submit" value= "${quest.objective}" />
-                                </form>
+                                <input onclick="this.form.submited=this.value;" name="quest" type="submit" value="${quest.objective}" />
                             </td>
-                            <td><button onclick="this.form.submited=this.value;"  type="submit" name="doit" value="${quest.objective}">Do this quest</button></td>
+                            <td>
+                                <button onclick="this.form.submited=this.value;"  type="submit" name="doit" value="${quest.objective}">
+                                    Do this quest
+                                </button>
+                            </td>
                         </tr>
                     </c:forEach>
                 </table>
