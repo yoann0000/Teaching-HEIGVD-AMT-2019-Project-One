@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 @Builder(toBuilder = true)
 @Data
 @EqualsAndHashCode
@@ -58,6 +56,11 @@ public class Adventurer {
     public void addCha(){
         cha++;
         spendpoints++;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 }
 

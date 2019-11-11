@@ -1,10 +1,8 @@
 package Presentation;
 
 import Model.Adventurer;
-import business.AuthenticationService;
 import business.IAuthenticationService;
 import datastore.exception.DuplicateKeyException;
-import integration.AdventurerDAO;
 import integration.IAdventurerDAO;
 import integration.IClassDAO;
 import integration.IRaceDAO;
@@ -16,7 +14,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet(name="RegistrationServlet", urlPatterns = "/registration")
 public class RegistrationServlet extends HttpServlet {
