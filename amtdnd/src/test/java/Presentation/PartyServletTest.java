@@ -1,12 +1,9 @@
 package Presentation;
 
 import Model.Adventurer;
-import Model.Guild;
 import Model.Party;
 import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
-import integration.IGuildDAO;
-import integration.IGuildAdventurerDAO;
 import integration.IPartyAdventurerDAO;
 import integration.IPartyDAO;
 import org.junit.jupiter.api.BeforeEach;
