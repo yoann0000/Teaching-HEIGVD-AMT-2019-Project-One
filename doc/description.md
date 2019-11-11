@@ -55,6 +55,8 @@ To undertake a quest the user must
 
 ![quest](/pics/quest.PNG)
 
+![questdetails](/pics/questinfo.PNG)
+
 ## Gold
 
 Gold is the currency of our system but, as of this writing, serves no other purpose than bragging rights.
