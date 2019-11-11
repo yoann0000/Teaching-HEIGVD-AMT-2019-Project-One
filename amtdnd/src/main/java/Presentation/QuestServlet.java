@@ -5,6 +5,7 @@ import Model.Guild;
 import Model.Party;
 import Model.Quest;
 import Model.util.PairQG;
+import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
 import integration.*;
 
@@ -25,6 +26,8 @@ public class QuestServlet extends HttpServlet {
     @EJB
     IGuildAdventurerDAO guildAdventurerDAO;
     @EJB
+    IPartyDAO partyDAO;
+    @EJB
     IPartyAdventurerDAO partyAdventurerDAO;
     @EJB
     IQuestPartyGuildDAO questPartyGuildDAO;
@@ -37,33 +40,49 @@ public class QuestServlet extends HttpServlet {
         try {
             Guild guild = guildAdventurerDAO.findAdventurerGuild(request.getSession().getAttribute("adventurer").toString());
             List<PairQG> pairQGList = new ArrayList<>();
-            for (Party party :partyAdventurerDAO.findPlayerPartiesById(request.getSession().getAttribute("adventurer").toString())) {
-                pairQGList.addAll(questPartyGuildDAO.getQuestsDoneByParty(party));
-            }
             request.setAttribute("guild", guild);
             request.setAttribute("userParties", partyAdventurerDAO.findPlayerPartiesById(request.getSession().getAttribute("adventurer").toString()));
         } catch (KeyNotFoundException e) {
-            e.printStackTrace();
+            request.setAttribute("error", e.getMessage( ));
         }
         questPage(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String user = request.getSession().getAttribute("adventurer").toString();
-        PairQG qg = (PairQG)request.getAttribute("quest");
-        Party userParty = (Party) request.getAttribute("party");
-        Guild guild = qg.getGuild();
-        Quest quest = qg.getQuest();
-        List<Adventurer> adventurers = partyAdventurerDAO.findPartyMembersById(user);
-        for (Adventurer a: adventurers) {
-            a.addExp(quest.getExp());
-            a.addGold(quest.getGold());
+        Adventurer moi = (Adventurer)request.getSession().getAttribute("adventurer");
+        String party = request.getParameter("party");
+        try {
+            Party userParty = partyDAO.findById(party);
+            Guild userGuild = guildAdventurerDAO.findAdventurerGuild(moi.getName());
+            String quest = request.getParameter("quest");
+            String doit = request.getParameter("doit");
+            if(doit != null){
+                try {
+                    Quest doneQuest = questDAO.findById(doit);
+                    questPartyGuildDAO.create(doneQuest, userParty, userGuild);
+                    userGuild.addReputation(1);
+                    userParty.addReputation(1);
+                    for(Adventurer member : partyAdventurerDAO.findPartyMembersById(userParty.getName())){
+                        member.addExp(doneQuest.getExp());
+                        member.addGold(doneQuest.getGold());
+                        questPartyGuildDAO.create(doneQuest, userParty, userGuild);
+                    }
+                } catch (KeyNotFoundException e) {
+                    request.setAttribute("error", e.getMessage( ));
+                    doGet(request, response);
+                }
+            }else if (quest != null){
+                Quest thisQuest = questDAO.findById((String) request.getAttribute("quest"));
+                request.setAttribute("quest", thisQuest);
+                request.setAttribute("guildPartyList", questPartyGuildDAO.getPartiesAndGuildsWhoHasDoneQuest(thisQuest));
+                request.getRequestDispatcher("/WEB-INF/pages/questprofile.jsp").forward(request, response);
+            }
+            request.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(request, response);
+        } catch (KeyNotFoundException | DuplicateKeyException e) {
+            request.setAttribute("error", e.getMessage( ));
+            doGet(request, response);
         }
-        guild.addReputation(quest.getExp());
-        userParty.addReputation(quest.getExp());
-
-        request.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(request, response);
     }
 
     private void questPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

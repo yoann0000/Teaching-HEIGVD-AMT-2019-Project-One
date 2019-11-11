@@ -27,7 +27,7 @@
                         <label>
                             <select required name="parties">
                                 <c:forEach var="party" items="${userParties}">
-                                    <option value="party"> ${party.name} </option>
+                                    <option value="${party.name}" name="party"> ${party.name} </option>
                                 </c:forEach>
                             </select>
                         </label>
