@@ -24,8 +24,8 @@ public class Adventurer {
     public int getLevel() {
         return experience == 0 ? 1 : (int) Math.floor(Math.log10(experience));
     }
-    public int getremainingpoint(){
-        return 150 * (getLevel() - 1) - spendpoints;
+    public int getremainingpoint() {
+        return 2 * (getLevel() - 1) - spendpoints;
     }
     public void addGold(int i){
         gold += i;
