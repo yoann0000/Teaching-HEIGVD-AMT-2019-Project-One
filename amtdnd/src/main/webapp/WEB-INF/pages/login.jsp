@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mystyle.css">
 </head>
 <body>
 <nav>
@@ -35,12 +35,11 @@
         <tr>
             <td colspan ="2">
                 <input type="submit" value= "Submit" />
-                <a href="${pageContext.request.contextPath}/login">Cancel</a>
             </td>
         </tr>
     </table>
 </form>
-<c:if test="${errorMessage != null}">
+<c:if test="${error != null}">
     ${error}
 </c:if>
 </body>

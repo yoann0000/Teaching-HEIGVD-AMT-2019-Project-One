@@ -11,6 +11,7 @@
 ### 1. Generate the .war file
 
 Open a console prompt and navigate to the **/amtdnd** in the project folder and enter the following command.
+
 ```bash
 mvn clean install
 ```
@@ -19,9 +20,13 @@ you can find the .war in **/amtdnd/target**.
 ### 2. Start the server
 
 Open a console prompt and navigate to the **/topology-amt** in the project folder and enter the following command.
+
 ```bash
 docker-compose up --build
 ```
+
+We used docker toolbox for our deployment. If you are using a regular version of docker replace the following IPs with **localhost**.
+
 Wait for the server to boot up then open a browser and go to **192.168.99.100:9990** to access the wildfly sever as an admin (user=admin:password=admin).
 
 Enter the deployments tab and upload the .war file generated last step by clicking on **upload deployment**.
@@ -32,9 +37,7 @@ Wait for wildfly to indicate that the .war has been deployed and, if it is deact
 
 ### 3. Enter the webapp
 
-If you have the standard version docker connect to the site by entering **localhost:8080/dnd/registration** in a browser tab.
-
-If you have docker toolbox the ip address may change for different configurations but by default it is **192.168.99.100:8080/dnd/registration**.
+Connect to the site by entering **192.168.99.100:8080/dnd/registration** in a browser tab.
 
 To find out what you can do in the app, see the **project description** below.
 

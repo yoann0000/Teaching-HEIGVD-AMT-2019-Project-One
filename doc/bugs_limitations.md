@@ -2,11 +2,11 @@
 
 ## Bugs
 
-none found so far.
+None so far, only features.
 
 ## Limitations
 
-many
+the quest database cannot be populated in app and needs to be populated before use.
 
 ## Improvements
 

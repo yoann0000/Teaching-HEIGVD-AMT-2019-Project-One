@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Register</title>
-    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mystyle.css">
 </head>
 <body>
 <nav>

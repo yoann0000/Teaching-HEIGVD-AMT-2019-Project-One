@@ -3,7 +3,6 @@ package Presentation;
 import Model.Adventurer;
 import business.AuthenticationService;
 import datastore.exception.KeyNotFoundException;
-import integration.AdventurerDAO;
 import integration.IAdventurerDAO;
 
 import javax.ejb.EJB;

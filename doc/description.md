@@ -3,6 +3,10 @@
 Our project allows you to create a character based on the popular role playing game **Dungeons & Dragons**.
 You can create a character from the registration page or, if you already have one you can simply login with your character name and password.
 
+![register](/doc/pics/register.PNG)
+
+![login](/doc/pics/login.PNG)
+
 ## Navbar
 
 At the top of each page the user will find a navigation bar allowing him to traverse the four pages of our application or logout if he desires.
@@ -15,6 +19,8 @@ Under that you will also find the guild and party sections.
 
 If the user has had enough of this mediocre application he can find the most important button at the bottom of the page *\"Delete my account\"*.
 
+![home](/doc/pics/firstHome.PNG)
+
 ## Guilds
 
 A guild is a communal entity that offers quests to parties of adventurers.
@@ -22,6 +28,10 @@ A guild is a communal entity that offers quests to parties of adventurers.
 * A user can only be part of one guild at a time
 * Before joining a guild a user can look at it's profile (name, reputation, members, etc)
 * Being part of a guild gives the user access to the quest tab
+
+![guild](/doc/pics/guild.PNG)
+
+![guild](/doc/pics/guildscreen.PNG)
 
 ## Parties
 
@@ -42,6 +52,10 @@ To undertake a quest the user must
 4. Select witch quest he wants.
 5. Review the quest info if he wishes.
 6. Click on "Do this quest".
+
+![quest](/doc/pics/quest.PNG)
+
+![questdetails](/doc/pics/questinfo.PNG)
 
 ## Gold
 
