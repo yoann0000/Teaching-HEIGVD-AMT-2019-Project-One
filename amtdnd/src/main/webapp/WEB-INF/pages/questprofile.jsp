@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Quest Description</title>
     <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>

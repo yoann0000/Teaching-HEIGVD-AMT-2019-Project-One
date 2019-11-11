@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Rod Julien
-  Date: 10.11.2019
-  Time: 15:33
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -12,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Guilds</title>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
 <nav>
