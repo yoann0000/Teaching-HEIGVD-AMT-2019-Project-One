@@ -34,7 +34,22 @@ If you have the standard version docker connect to the site by entering **localh
 
 If you have docker toolbox the ip address may change for different configurations but by default it is **192.168.99.100:8080/dnd/registration**.
 
-To find out what you can do in the app, see the *\"project description"* below.
+To find out what you can do in the app, see the **project description** below.
+
+### 4. Populate database(optional but recommended for tests)
+
+We have prepared a few sql scripts for project testing in the root folder. Each sql script starts with the prefix dnddata.
+
+If you wish to use these scripts, add them to the **/images/mysql/data** folder and repeat the first step of the **start the server** step.
+```bash
+docker-compose up --build
+```
+
+This can take some time so make sure you have something else to do in the meantime.
+
+If you wish to generate more data, you can use the amtdndgeneratedata project but doing so might generate duplicate data in the *dnddata0* file.
+
+You can remove the duplicates by hand but use it at your own risk.
 
 ## Report Links
 - [Project description](/doc/description.md)
