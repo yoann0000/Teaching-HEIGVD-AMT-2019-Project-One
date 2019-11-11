@@ -1,5 +1,6 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!--%@ page contentType="text/html;charset=UTF-8" language="java" %-->
+<!--%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %-->
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -8,7 +9,7 @@
 </head>
 <body>
 <nav>
-    <a href="${pageContext.request.contextPath}/login">Login</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/login">Login</a>
 </nav>
 <h3>Register Page</h3>
 
@@ -56,14 +57,14 @@
         </tr>
         <tr>
             <td colspan ="2">
-                <input type="submit" value= "Submit" />
-                <a href="${pageContext.request.contextPath}/registration">Cancel</a>
+                <input type="submit" value= "Submit"/>
+                <a class="button cancel" href="${pageContext.request.contextPath}/registration">Cancel</a>
             </td>
         </tr>
     </table>
 </form>
 <c:if test="${errorMessage != null}">
-    ${error}
+    <h2 class="error">${error}</h2>
 </c:if>
 </body>
 </html>

@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav>
-    <a href="${pageContext.request.contextPath}/registration">Register</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/registration">Register</a>
 </nav>
 <h3>Login Page</h3>
 
