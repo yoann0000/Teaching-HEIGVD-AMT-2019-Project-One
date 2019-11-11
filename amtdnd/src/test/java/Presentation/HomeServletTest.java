@@ -80,4 +80,12 @@ public class HomeServletTest {
         homeServlet.doPost(request, response);
         verify(adventurerDAO, atLeastOnce()).deleteById("monNom");
     }
+
+    @Test
+    void doPostUpdateStrength() throws ServletException, IOException, KeyNotFoundException {
+        when(request.getParameter("delete")).thenReturn(null);
+        when(request.getParameter("stat")).thenReturn("str");
+        homeServlet.doPost(request, response);
+        verify(adventurerDAO, atLeastOnce()).update(any());
+    }
 }
