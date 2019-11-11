@@ -35,7 +35,7 @@
         <tr>
             <td>
                 <form method="POST" action="${pageContext.request.contextPath}/party">
-                    <input onclick="this.form.submited=this.value;" name="party" type="submit" value= "${party.name}" />
+                    <input onclick="this.form.submited=this.value;" name="party" type="submit" value="${party.name}" />
                 </form>
             </td>
             <td>${party.reputation}</td>

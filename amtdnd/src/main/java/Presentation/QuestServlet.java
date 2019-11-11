@@ -27,6 +27,8 @@ public class QuestServlet extends HttpServlet {
     IGuildAdventurerDAO guildAdventurerDAO;
     @EJB
     IPartyAdventurerDAO partyAdventurerDAO;
+    @EJB
+    IQuestPartyGuildDAO questPartyGuildDAO;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

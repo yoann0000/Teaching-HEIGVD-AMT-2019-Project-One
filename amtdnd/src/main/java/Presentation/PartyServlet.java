@@ -105,7 +105,7 @@ public class PartyServlet extends HttpServlet {
                 recordsPerPage);
         int noOfRecords = partyDAO.nbOfRecord();
         int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
-        req.setAttribute("partydList", parties);
+        req.setAttribute("partyList", parties);
         req.setAttribute("noOfPages", noOfPages);
         req.setAttribute("currentPage", page);
         req.getRequestDispatcher("/WEB-INF/pages/party.jsp").forward(req, resp);

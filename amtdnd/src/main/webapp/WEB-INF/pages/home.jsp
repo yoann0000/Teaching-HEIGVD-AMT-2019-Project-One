@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -38,42 +39,54 @@
                 <td>strength</td>
                 <td>${sessionScope.adventurer.str}</td>
                 <td>
-                    <button onclick="this.form.submited=this.value;"  type="submit" name="str" value="">+</button>
+                    <c:if test="${sessionScope.adventurer.getremainingpoint() > 0}">
+                        <button onclick="this.form.submited=this.value;"  type="submit" name="stat" value="str">+</button>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <td>dexterity</td>
                 <td>${sessionScope.adventurer.dex}</td>
                 <td>
-                    <button onclick="this.form.submited=this.value;"  type="submit" name="dex" value="">+</button>
+                    <c:if test="${sessionScope.adventurer.getremainingpoint() > 0}">
+                        <button onclick="this.form.submited=this.value;"  type="submit" name="stat" value="dex">+</button>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <td>constitution</td>
                 <td>${sessionScope.adventurer.con}</td>
                 <td>
-                    <button onclick="this.form.submited=this.value;"  type="submit" name="con" value="">+</button>
+                    <c:if test="${sessionScope.adventurer.getremainingpoint() > 0}">
+                        <button onclick="this.form.submited=this.value;"  type="submit" name=stat"" value="con">+</button>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <td>intelligence</td>
                 <td>${sessionScope.adventurer.inte}</td>
                 <td>
-                    <button onclick="this.form.submited=this.value;"  type="submit" name="inte" value="">+</button>
+                    <c:if test="${sessionScope.adventurer.getremainingpoint() > 0}">
+                        <button onclick="this.form.submited=this.value;"  type="submit" name="stat" value="inte">+</button>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <td>wisdom</td>
                 <td>${sessionScope.adventurer.wis}</td>
                 <td>
-                    <button onclick="this.form.submited=this.value;"  type="submit" name="wis" value="">+</button>
+                    <c:if test="${sessionScope.adventurer.getremainingpoint() > 0}">
+                        <button onclick="this.form.submited=this.value;"  type="submit" name="stat" value="wis">+</button>
+                    </c:if>
                 </td>
             </tr>
             <tr>
                 <td>charisma</td>
                 <td>${sessionScope.adventurer.cha}</td>
                 <td>
-                    <button onclick="this.form.submited=this.value;"  type="submit" name="cha" value="">+</button>
+                    <c:if test="${sessionScope.adventurer.getremainingpoint() > 0}">
+                        <button onclick="this.form.submited=this.value;"  type="submit" name="stat" value="cha">+</button>
+                    </c:if>
                 </td>
             </tr>
             <tr>
@@ -100,22 +113,42 @@
     </table>
     <h3>Guild</h3>
     <p>
-    <form method="POST" action="${pageContext.request.contextPath}/guild">
-        <button onclick="this.form.submited=this.value;"  type="submit" name="guild" value="${guild.name}"/>
-    </form>
+        <c:choose>
+            <c:when test="${guild != null}">
+                <form method="POST" action="${pageContext.request.contextPath}/guild">
+                    <input onclick="this.form.submited=this.value;"  type="submit" name="guild" value="${guild.name}"/>
+                </form>
+            </c:when>
+            <c:otherwise>
+                <p>You don't belong to any guild right now</p>
+            </c:otherwise>
+        </c:choose>
     </p>
     <h3>Parties</h3>
     <table>
-        <c:forEach var="party" items="${parties}">
-            <tr>
-                <td>
-                    <form method="POST" action="${pageContext.request.contextPath}/party">
-                        <input onclick="this.form.submited=this.value;" name="party" type="submit" value= "${party.name}" />
-                    </form>
-                </td>
-                <td>${party.reputation}</td>
-            </tr>
-        </c:forEach>
+        <c:choose>
+            <c:when test="${parties.size() > 0}">
+                <c:forEach var="party" items="${parties}">
+                    <tr>
+                        <td>
+                            <form method="POST" action="${pageContext.request.contextPath}/party">
+                                <input onclick="this.form.submited=this.value;" name="party" type="submit" value= "${party.name}" />
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+               <p>You don't belong to any party right now</p>
+            </c:otherwise>
+        </c:choose>
     </table>
+    <p>
+        <form method="POST" action="${pageContext.request.contextPath}/home">
+            <button onclick="this.form.submited=this.value;"  type="submit" name="delete" value="delete">
+                Delete my account
+            </button>
+        </form>
+    </p>
 </body>
 </html>

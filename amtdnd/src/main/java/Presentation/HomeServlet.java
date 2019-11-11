@@ -4,6 +4,7 @@ import Model.Adventurer;
 import Model.Guild;
 import Model.Party;
 import datastore.exception.KeyNotFoundException;
+import integration.IAdventurerDAO;
 import integration.IGuildAdventurerDAO;
 import integration.IPartyAdventurerDAO;
 
@@ -22,6 +23,8 @@ public class HomeServlet extends HttpServlet {
     IGuildAdventurerDAO guildAdventurerDAO;
     @EJB
     IPartyAdventurerDAO partyAdventurerDAO;
+    @EJB
+    IAdventurerDAO adventurerDAO;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Adventurer moi = (Adventurer)request.getSession().getAttribute("adventurer");
@@ -42,7 +45,41 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        super.doPost(request, response);
+        Adventurer moi = (Adventurer)request.getSession().getAttribute("adventurer");
+        if(moi == null){
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
+        String delete = request.getParameter("delete");
+        String stat = request.getParameter("stat");
+        if("delete".equals(delete)){
+            deleteUserAccount(moi, request, response);
+        }else if("str".equals(stat)){
+            moi.addStr();
+        }else if("dex".equals(stat)){
+            moi.addDex();
+        }else if("con".equals(stat)){
+            moi.addCon();
+        }else if("inte".equals(stat)){
+            moi.addInt();
+        }else if("wis".equals(stat)){
+            moi.addWis();
+        }else if("cha".equals(stat)){
+            moi.addCha();
+        }
+        try {
+            adventurerDAO.update(moi);
+        } catch (KeyNotFoundException e) {
+            e.printStackTrace( );
+        }
+        doGet(request, response);
     }
 
+    private void deleteUserAccount(Adventurer adventurer, HttpServletRequest request, HttpServletResponse response){
+        try {
+            adventurerDAO.deleteById(adventurer.getName());
+            response.sendRedirect(request.getContextPath() + "/logout");
+        } catch (KeyNotFoundException | IOException e) {
+            e.printStackTrace( );
+        }
+    }
 }
