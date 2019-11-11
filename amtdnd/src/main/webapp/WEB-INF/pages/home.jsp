@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
-    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/mystyle.css">
 </head>
 <body>
     <nav>
@@ -105,18 +105,22 @@
         </form>
     </table>
     <h3>Guild</h3>
-    <p>
+    <table>
         <c:choose>
             <c:when test="${guild != null}">
-                <form method="POST" action="${pageContext.request.contextPath}/guild">
-                    <input onclick="this.form.submited=this.value;"  type="submit" name="guild" value="${guild.name}"/>
-                </form>
+                <tr>
+                    <td>
+                        <form method="POST" action="${pageContext.request.contextPath}/guild">
+                            <input onclick="this.form.submited=this.value;"  type="submit" name="guild" value="${guild.name}"/>
+                        </form>
+                    </td>
+                </tr>
             </c:when>
             <c:otherwise>
                 <p>You don't belong to any guild right now</p>
             </c:otherwise>
         </c:choose>
-    </p>
+    </table>
     <h3>Parties</h3>
     <table>
         <c:choose>
