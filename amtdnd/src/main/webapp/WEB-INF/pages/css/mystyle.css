@@ -45,7 +45,7 @@ tr, td {
 
 tr:nth-child(even) {background-color: #f2f2f2;}
 
-button {
+button, .button {
     background-color: #333;
     border: none;
     color: white;
@@ -57,7 +57,7 @@ button {
     border-radius: 16px;
 }
 
-button:hover {
+button:hover, .button:hover {
     background-color: #111;
 }
 
