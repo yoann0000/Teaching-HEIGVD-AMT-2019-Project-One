@@ -12,6 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <title>${party.name}</title>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
 <nav>

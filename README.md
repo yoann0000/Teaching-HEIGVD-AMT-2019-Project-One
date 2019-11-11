@@ -1,3 +1,17 @@
+# AMT-Project-One D&D
+
+##How to run project
+
+**todo**
+
+##Report Links
+[Project description](/doc/description.md)
+[Implementation](/doc/implementation.md)
+[Testing strategy](/doc/testing_strategy.md)
+[Experiment](/doc/experiment.md)
+[Bugs and limitations](/doc/bugs_limitations.md)
+
+
 # Teaching-HEIGVD-AMT-2019-Project-One
 ## Objectives
 
@@ -5,11 +19,11 @@ The main objective of this project is to apply the patterns and techniques prese
 
 ## Functional requirements
 
-* Pick the **business domain of your choice** (academic planning, travel, sports, social network, gaming, etc.). 
+* Pick the **business domain of your choice** (academic planning, travel, sports, social network, gaming, etc.).
 * Design a **simple model**, with a small number of business entities. The only constraint is that there should be at least one **ternary association**. An example is when a "Membership" business entity captures the relationship between a "Employee" entity and a "Group" entity.
 * It should be possible to manage the business entities (i.e. perform **CRUD operations** on them).
 * It should be possible to **navigate** between the entities (e.g. in the previous example, in a page that shows a list of Memberships, it should be possible to click on one and land on a page that displays its details; from that page, it should be possible to click on a link to arrive on a page showing the details of the Employee).
-* **Access to the application is protected**: users have to **register** and **authenticate** before accessing their data. 
+* **Access to the application is protected**: users have to **register** and **authenticate** before accessing their data.
 * **Data is scoped**: users only see the information they have created. Unless you go the extra mile and implement a feature, where some items can be marked as "public" and are then readable by everyone.
 
 ## Constraints
@@ -87,6 +101,5 @@ You don't have to follow this sequence if you prefer to do some of the tasks bef
 
 **Week 5 (November 4th): User Acceptance Testing**
 
-* You should have defined test scenarios at the UI level and used a tool such as Selenium to implement them. 
+* You should have defined test scenarios at the UI level and used a tool such as Selenium to implement them.
 * Someone cloning your repo must have all the information to run the tests.
-

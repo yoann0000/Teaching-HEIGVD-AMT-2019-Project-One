@@ -2,15 +2,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Quest Description</title>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
 <nav>
-    <a href="${pageContext.request.contextPath}/home">Home</a>
-    <a href="${pageContext.request.contextPath}/guild">Guild</a>
-    <a href="${pageContext.request.contextPath}/party">Party</a>
-    <a href="${pageContext.request.contextPath}/quest">Quests</a>
-    <a href="${pageContext.request.contextPath}/logout">Logout</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/home">Home</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/guild">Guild</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/party">Party</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/quest">Quests</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/logout">Logout</a>
 </nav>
 <h3>${quest.getObjective}</h3>
 <p>${quest.getDescription}</p>
@@ -50,6 +52,6 @@
         </c:otherwise>
     </c:choose>
 </table>
-<a href="${pageContext.request.contextPath}/quest">Return to quests.</a>
+<a class="button" href="${pageContext.request.contextPath}/quest">Return to quests.</a>
 </body>
 </html>

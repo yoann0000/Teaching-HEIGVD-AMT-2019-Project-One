@@ -5,10 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
 <nav>
-    <a href="${pageContext.request.contextPath}/registration">Register</a>
+    <a class="navbar" href="${pageContext.request.contextPath}/registration">Register</a>
 </nav>
 <h3>Login Page</h3>
 

@@ -5,16 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
     <nav>
-        <a href="${pageContext.request.contextPath}/home">Home</a>
-        <a href="${pageContext.request.contextPath}/guild">Guild</a>
-        <a href="${pageContext.request.contextPath}/party">Party</a>
-        <a href="${pageContext.request.contextPath}/quest">Quests</a>
-        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/home">Home</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/guild">Guild</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/party">Party</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/quest">Quests</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/logout">Logout</a>
     </nav>
-<br/>
 <h3>Welcome ${sessionScope.adventurer.name}</h3>
     <table>
         <form method="POST" action="${pageContext.request.contextPath}/home">

@@ -1,0 +1,109 @@
+nav{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navbar{
+    float: left;
+}
+
+.navbar{
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar:hover {
+    background-color: #111;
+}
+
+h3{
+    margin: 0;
+    padding: 10px;
+    overflow: hidden;
+    background-color: #222;
+    color: white;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+tr {
+    line-height: 32px;
+}
+
+tr, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:hover {background-color: #f5f5f5;}
+
+button, .button {
+    background-color: #333;
+    border: none;
+    color: white;
+    padding: 15px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 16px;
+}
+
+button:hover, .button:hover {
+    background-color: #111;
+}
+
+input[type=submit] {
+    background-color: #333333;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: left;
+}
+
+input[type=submit]:hover {
+    background-color: #111111;
+}
+
+html *
+{
+    font-size: 1em !important;
+    font-family: Roboto, sans-serif !important;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
+
+input[type=text]:focus {
+    border: 3px solid #555;
+}
+
+select {
+    width: 100%;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 6px;
+}
+
+.cancel {
+    float: right;
+}
+
+.error {
+    color: red;
+}
