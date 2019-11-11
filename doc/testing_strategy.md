@@ -10,7 +10,11 @@ When testing classes that requires data from another class we used Mockito to ge
 
 ## Jmeter
 
-We attempted to use Jmeter to load and performance test our app but, as of this writing, these tests are currently incomplete.
+We attempted to use Jmeter to load and performance test our app.
+
+![jmeter](/doc/pics/image_2019-11-11_22-47-14.png)
+
+With 10000 sessions (meaning 20000 requests), there are about 9.63% that fail.
 
 ### Opinion
 
