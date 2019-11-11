@@ -1,8 +1,57 @@
 # AMT-Project-One D&D
 
-## How to run project
+## requirements for deployment
 
-**todo**
+- java version 8+
+- maven
+- docker
+
+## Deployment
+
+### 1. Generate the .war file
+
+Open a console prompt and navigate to the **/amtdnd** in the project folder and enter the following command.
+```bash
+mvn clean install
+```
+you can find the .war in **/amtdnd/target**.
+
+### 2. Start the server
+
+Open a console prompt and navigate to the **/topology-amt** in the project folder and enter the following command.
+```bash
+docker-compose up --build
+```
+Wait for the server to boot up then open a browser and go to **192.168.99.100:9990** to access the wildfly sever as an admin (user=admin:password=admin).
+
+Enter the deployments tab and upload the .war file generated last step by clicking on **upload deployment**.
+
+![deployment](/doc/pics/photo_2019-11-11_20-18-45.jpg)
+
+Wait for wildfly to indicate that the .war has been deployed and, if it is deactivated, activate it.
+
+### 3. Enter the webapp
+
+If you have the standard version docker connect to the site by entering **localhost:8080/dnd/registration** in a browser tab.
+
+If you have docker toolbox the ip address may change for different configurations but by default it is **192.168.99.100:8080/dnd/registration**.
+
+To find out what you can do in the app, see the **project description** below.
+
+### 4. Populate database(optional but recommended for tests)
+
+We have prepared a few sql scripts for project testing in the root folder. Each sql script starts with the prefix dnddata.
+
+If you wish to use these scripts, add them to the **/images/mysql/data** folder and repeat the first step of the **start the server** step.
+```bash
+docker-compose up --build
+```
+
+This can take some time so make sure you have something else to do in the meantime.
+
+If you wish to generate more data, you can use the amtdndgeneratedata project but doing so might generate duplicate data in the *dnddata0* file.
+
+You can remove the duplicates by hand but use it at your own risk.
 
 ## Report Links
 - [Project description](/doc/description.md)
