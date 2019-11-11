@@ -24,7 +24,9 @@ docker-compose up --build
 ```
 Wait for the server to boot up then open a browser and go to **192.168.99.100:9990** to access the wildfly sever as an admin (user=admin:password=admin).
 
-Enter the deployment tab and upload the .war file generated last step by clicking on **upgrade deployment**.
+Enter the deployments tab and upload the .war file generated last step by clicking on **upload deployment**.
+
+![deployment](/doc/pics/photo_2019-11-11_20-18-45.jpg)
 
 Wait for wildfly to indicate that the .war has been deployed and, if it is deactivated, activate it.
 
