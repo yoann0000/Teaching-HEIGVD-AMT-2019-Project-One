@@ -2,10 +2,13 @@ package Presentation;
 
 import Model.Adventurer;
 import Model.Guild;
+import Model.Party;
 import datastore.exception.DuplicateKeyException;
 import datastore.exception.KeyNotFoundException;
 import integration.IGuildDAO;
 import integration.IGuildAdventurerDAO;
+import integration.IPartyAdventurerDAO;
+import integration.IPartyDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +33,8 @@ import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
 @ExtendWith(MockitoExtension.class)
-public class GuildServletTest {
+public class PartyServletTest {
+
     @Mock
     HttpServletRequest request;
 
@@ -44,83 +48,84 @@ public class GuildServletTest {
     RequestDispatcher requestDispacher;
 
     @Mock
-    IGuildDAO guildDAO;
+    IPartyDAO partyDAO;
 
     @Mock
-    IGuildAdventurerDAO guildAdventurerDAO;
+    IPartyAdventurerDAO partyAdventurerDAO;
 
-    GuildServlet guildServlet;
+    PartyServlet partyServlet;
 
     @BeforeEach
     public void setup() throws IOException, DuplicateKeyException, KeyNotFoundException {
         MockitoAnnotations.initMocks(this);
-        guildServlet = new GuildServlet();
-        guildServlet.guildDAO = guildDAO;
-        guildServlet.guildAdventurerDAO = guildAdventurerDAO;
+        partyServlet = new PartyServlet();
+        partyServlet.partyDAO = partyDAO;
+        partyServlet.partyAdventurerDAO = partyAdventurerDAO;
         when(request.getRequestDispatcher(anyString())).thenReturn(requestDispacher);
     }
 
     @Test
     void doGet() throws ServletException, IOException, DuplicateKeyException, SQLException, KeyNotFoundException {
-        guildServlet.doGet(request, response);
-        verify(guildDAO, atLeastOnce()).findAll(anyInt(), anyInt());
+        partyServlet.doGet(request, response);
+        verify(partyDAO, atLeastOnce()).findAll(anyInt(), anyInt());
     }
 
     @Test
     void doPostCreateGuild() throws ServletException, IOException, KeyNotFoundException, DuplicateKeyException {
         when(request.getSession()).thenReturn(httpSession);
-        when(guildDAO.findById(anyString())).thenReturn(Guild.builder().name("Test").members(new LinkedList<>()).build());
-        when(guildDAO.create(any())).thenReturn(Guild.builder().name("Test").members(new LinkedList<>()).build());
-        when(guildAdventurerDAO.findMembersById(any())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
+        when(partyDAO.findById(anyString())).thenReturn(Party.builder().name("Test").members(new LinkedList<>()).build());
+        when(partyDAO.create(any())).thenReturn(Party.builder().name("Test").members(new LinkedList<>()).build());
+        when(partyAdventurerDAO.findPartyMembersById(any())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
         when((Adventurer)httpSession.getAttribute("adventurer")).thenReturn(Adventurer.builder().name("Test").build());
-        when(request.getParameter("newGuild")).thenReturn("Test");
-        when(request.getParameter("guild")).thenReturn("");
+        when(request.getParameter("newParty")).thenReturn("Test");
+        when(request.getParameter("party")).thenReturn("");
         when(request.getParameter("join")).thenReturn(null);
         when(request.getParameter("quit")).thenReturn(null);
-        guildServlet.doPost(request, response);
-        verify(guildDAO, atLeastOnce()).findById("Test");
+        partyServlet.doPost(request, response);
+        verify(partyDAO, atLeastOnce()).findById("Test");
     }
 
     @Test
-    void doPostGoToGuild() throws KeyNotFoundException, DuplicateKeyException, ServletException, IOException {
+    void doPostGoToParty() throws KeyNotFoundException, DuplicateKeyException, ServletException, IOException {
         when(request.getSession()).thenReturn(httpSession);
-        when(guildDAO.findById(anyString())).thenReturn(Guild.builder().name("Test").members(new LinkedList<>()).build());
-        when(guildAdventurerDAO.findMembersById(any())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
+        when(partyDAO.findById(anyString())).thenReturn(Party.builder().name("Test").members(new LinkedList<>()).build());
+        when(partyAdventurerDAO.findPartyMembersById(any())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
         when((Adventurer)httpSession.getAttribute("adventurer")).thenReturn(Adventurer.builder().name("Test").build());
-        when(request.getParameter("guild")).thenReturn("Test");
+        when(request.getParameter("party")).thenReturn("Test");
         when(request.getParameter("join")).thenReturn(null);
         when(request.getParameter("quit")).thenReturn(null);
-        guildServlet.doPost(request, response);
-        assertTrue(request.getParameter("guild").equals("Test"));
+        partyServlet.doPost(request, response);
+        assertTrue(request.getParameter("party").equals("Test"));
     }
 
     @Test
-    void doPostJoinAGuild() throws KeyNotFoundException, DuplicateKeyException, ServletException, IOException {
+    void doPostJoinAParty() throws KeyNotFoundException, DuplicateKeyException, ServletException, IOException {
         when(request.getSession()).thenReturn(httpSession);
-        when(guildDAO.findById(anyString())).thenReturn(Guild.builder().name("Test").members(new LinkedList<>()).build());
-        when(guildAdventurerDAO.findMembersById(anyString())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
+        when(partyDAO.findById(anyString())).thenReturn(Party.builder().name("Test").members(new LinkedList<>()).build());
+        when(partyAdventurerDAO.findPartyMembersById(anyString())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
         when((Adventurer)httpSession.getAttribute("adventurer")).thenReturn(Adventurer.builder().name("Test").build());
-        when(request.getParameter("guild")).thenReturn("Test");
+        when(request.getParameter("party")).thenReturn("Test");
         when(request.getParameter("join")).thenReturn("Test");
         when(request.getParameter("quit")).thenReturn(null);
-        guildServlet.doPost(request, response);
-        verify(guildAdventurerDAO, atLeastOnce()).addGuildToAdventurer((Adventurer)httpSession.getAttribute("adventurer"),
-                guildDAO.findById("Test"));
+        partyServlet.doPost(request, response);
+        verify(partyAdventurerDAO, atLeastOnce()).create((Adventurer)httpSession.getAttribute("adventurer"),
+                partyDAO.findById("Test"));
     }
 
     @Test
-    void doPostQuitAGuild() throws KeyNotFoundException, ServletException, IOException {
+    void doPostQuitAParty() throws KeyNotFoundException, ServletException, IOException {
         when(request.getSession()).thenReturn(httpSession);
-        when(guildDAO.findById(anyString())).thenReturn(Guild.builder().name("Test").members(Arrays.asList(
+        when(partyDAO.findById(anyString())).thenReturn(Party.builder().name("Test").members(Arrays.asList(
                 Adventurer.builder().name("Test").build())).build());
-        when(guildAdventurerDAO.findMembersById(anyString())).thenReturn(
+        when(partyAdventurerDAO.findPartyMembersById(anyString())).thenReturn(
                 Arrays.asList(Adventurer.builder().name("Test").build()));
         when((Adventurer)httpSession.getAttribute("adventurer"))
                 .thenReturn(Adventurer.builder().name("Test").build());
-        when(request.getParameter("guild")).thenReturn("Test");
+        when(request.getParameter("party")).thenReturn("Test");
         when(request.getParameter("join")).thenReturn(null);
         when(request.getParameter("quit")).thenReturn("Test");
-        guildServlet.doPost(request, response);
-        verify(guildAdventurerDAO, atLeastOnce()).removeGuildFromAdventurer(Adventurer.builder().name("Test").build());
+        partyServlet.doPost(request, response);
+        verify(partyAdventurerDAO, atLeastOnce()).deleteById(Adventurer.builder().name("Test").build(),
+                partyDAO.findById("Test"));
     }
 }
