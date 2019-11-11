@@ -14,6 +14,8 @@ We attempted to use Jmeter to load and performance test our app.
 
 ![jmeter](/doc/pics/image_2019-11-11_22-47-14.png)
 
+With 10000 sessions (meaning 20000 requests), there are about 9.63% that fail.
+
 ### Opinion
 
 With more time and more expertise we could have been able to do more about our current tests. However, as it stands right now our tests can only be called satisfactory in that they are used to test a minimalist application.
