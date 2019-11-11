@@ -1,15 +1,15 @@
 # AMT-Project-One D&D
 
-##How to run project
+## How to run project
 
 **todo**
 
-##Report Links
-[Project description](/doc/description.md)
-[Implementation](/doc/implementation.md)
-[Testing strategy](/doc/testing_strategy.md)
-[Experiment](/doc/experiment.md)
-[Bugs and limitations](/doc/bugs_limitations.md)
+## Report Links
+- [Project description](/doc/description.md)
+- [Implementation](/doc/implementation.md)
+- [Testing strategy](/doc/testing_strategy.md)
+- [Experiment](/doc/experiment.md)
+- [Bugs and limitations](/doc/bugs_limitations.md)
 
 
 # Teaching-HEIGVD-AMT-2019-Project-One
