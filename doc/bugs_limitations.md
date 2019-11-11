@@ -6,7 +6,7 @@ None so far, only features.
 
 ## Limitations
 
-the quest database needs to be populated before use.
+the quest database cannot be populated in app and needs to be populated before use.
 
 ## Improvements
 
