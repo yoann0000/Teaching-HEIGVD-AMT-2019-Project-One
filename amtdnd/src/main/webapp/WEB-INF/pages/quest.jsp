@@ -14,7 +14,7 @@
     <a href="${pageContext.request.contextPath}/logout">Logout</a>
 </nav>
 <c:choose>
-    <c:when test="${guild != null}">
+    <c:when test="${guild == null}">
         You must join a guild to get Quests.
         <a href="${pageContext.request.contextPath}/guild">Join a guild.</a>
     </c:when>
@@ -25,30 +25,52 @@
                     <td>Choose your party.</td>
                     <td>
                         <label>
-                            <select required name="party">
-                                <c:forEach var="parties" items="${userParties}">
-                                    <option value="party"> ${var.getName} </option>
+                            <select required name="parties">
+                                <c:forEach var="party" items="${userParties}">
+                                    <option value="party"> ${party.name} </option>
                                 </c:forEach>
                             </select>
                         </label>
-                    </td>
-                    <td>Take on a new quest.</td>
-                    <td>
-                        <label>
-                            <select required name="quest">
-                                <c:forEach var="quests" items="${userQuests}">
-                                    <option value="quest"> ${var.getObjective} </option>
-                                </c:forEach>
-                            </select>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan ="2">
-                        <input type="submit" value= "Submit" />
                     </td>
                 </tr>
             </table>
+            <p>Take on a new quest.</p>
+                <table border="1" cellpadding="5" cellspacing="5">
+                    <tr>
+                        <th>Objective</th>
+                        <th>Do this quest</th>
+                    </tr>
+                    <c:forEach var="quest" items="${questList}">
+                        <tr>
+                            <td>
+                                <form method="POST" action="${pageContext.request.contextPath}/quest">
+                                    <input onclick="this.form.submited=this.value;" name="quest" type="submit" value= "${quest.objective}" />
+                                </form>
+                            </td>
+                            <td><button onclick="this.form.submited=this.value;"  type="submit" name="doit" value="${quest.objective}">Do this quest</button></td>
+                        </tr>
+                    </c:forEach>
+                </table>
+                <c:if test="${currentPage != 1}">
+                    <td><a href="quest?page=${currentPage - 1}">Previous</a></td>
+                </c:if>
+                <table border="1" cellpadding="5" cellspacing="5">
+                    <tr>
+                        <c:forEach begin="1" end="${noOfPages}" var="i">
+                            <c:choose>
+                                <c:when test="${currentPage eq i}">
+                                    <td>${i}</td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td><a href="quest?page=${i}">${i}</a></td>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
+                </table>
+                <c:if test="${currentPage lt noOfPages}">
+                    <td><a href=quest?page=${currentPage + 1}">Next</a></td>
+                </c:if>
         </form>
     </c:otherwise>
 </c:choose>

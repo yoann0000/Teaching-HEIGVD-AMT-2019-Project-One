@@ -1,5 +1,7 @@
 package integration;
 
+import Model.Adventurer;
+import Model.Party;
 import Model.Quest;
 import business.IAuthenticationService;
 import datastore.exception.DuplicateKeyException;
@@ -13,6 +15,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
 @Stateless
 public class QuestDAO implements IQuestDAO {
@@ -108,6 +112,58 @@ public class QuestDAO implements IQuestDAO {
             }
         }catch (SQLException e) {
             e.printStackTrace();
+            throw new Error(e);
+        } finally {
+            ConnectionCloser.closeConnection(con);
+        }
+    }
+
+    @Override
+    public List<Quest> findAll(int offset, int limit) {
+        Connection con = null;
+        try{
+            con = dataSource.getConnection();
+            PreparedStatement statement = null;
+            if(limit == 0) {
+                statement = con.prepareStatement("SELECT id, description, rewardGold, rewardExp FROM quest;");
+            }else{
+                statement = con.prepareStatement("SELECT id, description, rewardGold" +
+                        ", rewardExp FROM quest LIMIT ? OFFSET ?;");
+                statement.setInt(1, limit);
+                statement.setInt(2, offset);
+            }
+            ResultSet rs = statement.executeQuery();
+            List<Quest> quests = new LinkedList<>();
+            while(rs.next()){
+                Quest existingQuest = Quest.builder()
+                        .objective(rs.getString(1))
+                        .description(rs.getString(2))
+                        .gold(rs.getInt(3))
+                        .exp(rs.getInt(3))
+                        .build();
+                quests.add(existingQuest);
+            }
+            ConnectionCloser.closeConnection(con);
+
+            return quests;
+        }catch (SQLException e) {
+            e.printStackTrace();
+            ConnectionCloser.closeConnection(con);
+            throw new Error(e);
+        }
+    }
+
+    @Override
+    public int nbOfRecord() {
+        Connection con = null;
+        try {
+            con = dataSource.getConnection( );
+            PreparedStatement statement = con.prepareStatement("SELECT COUNT(*) FROM quest;");
+            ResultSet rs = statement.executeQuery( );
+            rs.next( );
+            return rs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace( );
             throw new Error(e);
         } finally {
             ConnectionCloser.closeConnection(con);

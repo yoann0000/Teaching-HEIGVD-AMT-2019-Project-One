@@ -71,7 +71,7 @@ public class QuestServletTest {
     public void doPostTest() throws ServletException, IOException {
         Quest test = Quest.builder().objective("test").exp(20).gold(10).build();
         Guild gtest = Guild.builder().name("test").reputation(30).build();
-        when(request.getAttribute("quest")).thenReturn(Arrays.asList(PairQG.builder().quest(test).guild(gtest).build()));
+        when(request.getAttribute("quest")).thenReturn(PairQG.builder().quest(test).guild(gtest).build());
         Party ptest = Party.builder().name("TestParty").reputation(10).build();
         when(request.getAttribute("party")).thenReturn(ptest);
         List<Adventurer> adventurers = Arrays.asList(Adventurer.builder().name("a1").experience(0).gold(0).build(), Adventurer.builder().name("a2").experience(0).gold(0).build());
