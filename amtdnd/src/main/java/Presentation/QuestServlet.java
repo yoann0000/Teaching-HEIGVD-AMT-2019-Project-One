@@ -15,8 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @WebServlet(name="QuestServlet", urlPatterns = "/quest")
@@ -39,7 +37,10 @@ public class QuestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        Adventurer moi = (Adventurer)request.getSession().getAttribute("adventurer");
+        if(moi == null){
+            response.sendRedirect(request.getContextPath() + "/login");
+        }
         try {
             Guild guild = guildAdventurerDAO.findAdventurerGuild(request.getSession().getAttribute("adventurer").toString());
             request.setAttribute("guild", guild);
@@ -81,7 +82,6 @@ public class QuestServlet extends HttpServlet {
             }else if (quest != null){
                 Quest thisQuest = questDAO.findById(quest);
                 request.setAttribute("quest", thisQuest);
-                request.setAttribute("guildPartyList", questPartyGuildDAO.getPartiesAndGuildsWhoHasDoneQuest(thisQuest));
                 request.getRequestDispatcher("/WEB-INF/pages/questprofile.jsp").forward(request, response);
             }
         } catch (KeyNotFoundException | DuplicateKeyException e) {
