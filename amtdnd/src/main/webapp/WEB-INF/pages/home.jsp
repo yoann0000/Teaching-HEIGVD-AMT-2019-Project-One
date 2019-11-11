@@ -1,20 +1,63 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!--%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %-->
+<!--%@ page contentType="text/html;charset=UTF-8" language="java" %-->
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
+    <style>
+         nav{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        .navbar{
+            float: left;
+        }
+
+        .navbar{
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar:hover {
+            background-color: #111;
+        }
+
+         h3{
+             margin: 0;
+             padding: 10px;
+             overflow: hidden;
+             background-color: #222;
+             color: white;
+         }
+
+         table {
+             border-collapse: collapse;
+             width: 100%;
+         }
+
+         tr, td {
+             text-align: left;
+             padding: 8px;
+         }
+
+         tr:nth-child(even) {background-color: #f2f2f2;}
+    </style>
 </head>
 <body>
     <nav>
-        <a href="${pageContext.request.contextPath}/home">Home</a>
-        <a href="${pageContext.request.contextPath}/guild">Guild</a>
-        <a href="${pageContext.request.contextPath}/party">Party</a>
-        <a href="${pageContext.request.contextPath}/quest">Quests</a>
-        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/home">Home</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/guild">Guild</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/party">Party</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/quest">Quests</a>
+        <a class="navbar" href="${pageContext.request.contextPath}/logout">Logout</a>
     </nav>
-<br/>
 <h3>Welcome ${sessionScope.adventurer.name}</h3>
     <table>
         <form method="POST" action="${pageContext.request.contextPath}/home">
