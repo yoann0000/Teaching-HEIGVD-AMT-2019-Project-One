@@ -5,50 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Home Page</title>
-    <style>
-         nav{
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            background-color: #333;
-        }
-
-        .navbar{
-            float: left;
-        }
-
-        .navbar{
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
-            text-decoration: none;
-        }
-
-        .navbar:hover {
-            background-color: #111;
-        }
-
-         h3{
-             margin: 0;
-             padding: 10px;
-             overflow: hidden;
-             background-color: #222;
-             color: white;
-         }
-
-         table {
-             border-collapse: collapse;
-             width: 100%;
-         }
-
-         tr, td {
-             text-align: left;
-             padding: 8px;
-         }
-
-         tr:nth-child(even) {background-color: #f2f2f2;}
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/mystyle.css">
 </head>
 <body>
     <nav>
