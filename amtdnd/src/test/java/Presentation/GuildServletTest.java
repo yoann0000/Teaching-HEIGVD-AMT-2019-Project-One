@@ -49,10 +49,10 @@ public class GuildServletTest {
     @Mock
     IGuildAdventurerDAO guildAdventurerDAO;
 
-    GuildServlet guildServlet;
+    private GuildServlet guildServlet;
 
     @BeforeEach
-    public void setup() throws IOException, DuplicateKeyException, KeyNotFoundException {
+    void setup() {
         MockitoAnnotations.initMocks(this);
         guildServlet = new GuildServlet();
         guildServlet.guildDAO = guildDAO;
@@ -61,7 +61,7 @@ public class GuildServletTest {
     }
 
     @Test
-    void doGet() throws ServletException, IOException, DuplicateKeyException, SQLException, KeyNotFoundException {
+    void doGet() throws ServletException, IOException {
         guildServlet.doGet(request, response);
         verify(guildDAO, atLeastOnce()).findAll(anyInt(), anyInt());
     }
