@@ -13,9 +13,6 @@
     <a href="${pageContext.request.contextPath}/quest">Quests</a>
     <a href="${pageContext.request.contextPath}/logout">Logout</a>
 </nav>
-<c:if test="">
-
-</c:if>
 <c:choose>
     <c:when test="${guild != null}">
         You must join a guild to get Quests.
