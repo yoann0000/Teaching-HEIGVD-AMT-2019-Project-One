@@ -2,11 +2,11 @@
 
 ## Bugs
 
-none found so far.
+None so far, only features.
 
 ## Limitations
 
-many
+the quest database needs to be populated before use.
 
 ## Improvements
 
