@@ -22,8 +22,6 @@ import java.util.List;
 public class QuestServlet extends HttpServlet {
 
     @EJB
-    IQuestDAO questDAO;
-    @EJB
     IGuildAdventurerDAO guildAdventurerDAO;
     @EJB
     IPartyAdventurerDAO partyAdventurerDAO;
@@ -31,50 +29,35 @@ public class QuestServlet extends HttpServlet {
     IQuestPartyGuildDAO questPartyGuildDAO;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         try {
-            Guild guild = guildAdventurerDAO.findAdventurerGuild(req.getSession().getAttribute("adventurer").toString());
+            Guild guild = guildAdventurerDAO.findAdventurerGuild(request.getSession().getAttribute("adventurer").toString());
             List<PairQG> pairQGList = new ArrayList<>();
-            for (Party party :partyAdventurerDAO.findPlayerPartiesById(req.getSession().getAttribute("adventurer").toString())) {
+            for (Party party :partyAdventurerDAO.findPlayerPartiesById(request.getSession().getAttribute("adventurer").toString())) {
                 pairQGList.addAll(questPartyGuildDAO.getQuestsDoneByParty(party));
             }
-            req.setAttribute("guild", guild);
-            req.setAttribute("guildQuests", questPartyGuildDAO.getQuestsDoneByGuild(guild));
-            req.setAttribute("userQuests", pairQGList);
+            request.setAttribute("guild", guild);
+            request.setAttribute("userQuests", pairQGList);
         } catch (KeyNotFoundException e) {
             e.printStackTrace();
         }
-        req.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(req, resp);
+        request.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
-        doWork(req, resp);
-    }
-
-    private void doWork(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String work = req.getParameter("ac");
-        String user = req.getSession().getAttribute("adventurer").toString();
-        try {
-            if (work.equals("get")) {
-                questPartyGuildDAO.getQuestsDoneByGuild(guildAdventurerDAO.findAdventurerGuild(user));
-            } else {
-                PairQG qg = (PairQG) req.getAttribute("quest");
-                Guild guild = qg.getGuild();
-                Quest quest = qg.getQuest();
-                List<Adventurer> adventurers = partyAdventurerDAO.findPartyMembersById(user);
-                for (Adventurer a: adventurers) {
-                    a.addExp(quest.getExp());
-                    a.addGold(quest.getGold());
-                }
-                guild.addReputation(quest.getExp());
-                questDAO.deleteById(quest.toString());
-                //TODO remove quest from party and guild
-            }
-        } catch (KeyNotFoundException e) {
-            e.printStackTrace();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        String user = request.getSession().getAttribute("adventurer").toString();
+        PairQG qg = (PairQG) request.getAttribute("quest");
+        Guild guild = qg.getGuild();
+        Quest quest = qg.getQuest();
+        List<Adventurer> adventurers = partyAdventurerDAO.findPartyMembersById(user);
+        for (Adventurer a: adventurers) {
+            a.addExp(quest.getExp());
+            a.addGold(quest.getGold());
         }
-        req.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(req, resp);
+        guild.addReputation(quest.getExp());
+
+        request.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(request, response);
     }
 }
