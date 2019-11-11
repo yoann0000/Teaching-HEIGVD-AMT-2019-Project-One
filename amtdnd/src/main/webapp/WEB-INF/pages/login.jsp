@@ -39,5 +39,6 @@
 <c:if test="${errorMessage != null}">
     ${error}
 </c:if>
+<a href="${pageContext.request.contextPath}/registration">Not registered yet?</a>
 </body>
 </html>
