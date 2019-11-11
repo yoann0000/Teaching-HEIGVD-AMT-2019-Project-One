@@ -82,7 +82,7 @@ public class GuildServletTest {
     }
 
     @Test
-    void doPostGoToGuild() throws KeyNotFoundException, DuplicateKeyException, ServletException, IOException {
+    void doPostGoToGuild() throws KeyNotFoundException, ServletException, IOException {
         when(request.getSession()).thenReturn(httpSession);
         when(guildDAO.findById(anyString())).thenReturn(Guild.builder().name("Test").members(new LinkedList<>()).build());
         when(guildAdventurerDAO.findMembersById(any())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
@@ -95,7 +95,7 @@ public class GuildServletTest {
     }
 
     @Test
-    void doPostJoinAGuild() throws KeyNotFoundException, DuplicateKeyException, ServletException, IOException {
+    void doPostJoinAGuild() throws KeyNotFoundException, ServletException, IOException {
         when(request.getSession()).thenReturn(httpSession);
         when(guildDAO.findById(anyString())).thenReturn(Guild.builder().name("Test").members(new LinkedList<>()).build());
         when(guildAdventurerDAO.findMembersById(anyString())).thenReturn(Arrays.asList(Adventurer.builder().name("Test").build()));
