@@ -25,12 +25,22 @@
         <form method="POST" action="${pageContext.request.contextPath}/quest">
             <table>
                 <tr>
-                    <td>Get a new quest</td>
+                    <td>Choose your party.</td>
                     <td>
                         <label>
-                            <select name="quest">
+                            <select required name="party">
+                                <c:forEach var="parties" items="${userParties}">
+                                    <option value="party"> ${var.getName} </option>
+                                </c:forEach>
+                            </select>
+                        </label>
+                    </td>
+                    <td>Take on a new quest.</td>
+                    <td>
+                        <label>
+                            <select required name="quest">
                                 <c:forEach var="quests" items="${userQuests}">
-                                    <option value="quest"> ${var.objective} </option>
+                                    <option value="quest"> ${var.getObjective} </option>
                                 </c:forEach>
                             </select>
                         </label>

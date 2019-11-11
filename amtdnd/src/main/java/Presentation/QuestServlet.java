@@ -38,6 +38,7 @@ public class QuestServlet extends HttpServlet {
                 pairQGList.addAll(questPartyGuildDAO.getQuestsDoneByParty(party));
             }
             request.setAttribute("guild", guild);
+            request.setAttribute("userParties", partyAdventurerDAO.findPlayerPartiesById(request.getSession().getAttribute("adventurer").toString()));
             request.setAttribute("userQuests", pairQGList);
         } catch (KeyNotFoundException e) {
             e.printStackTrace();
@@ -49,6 +50,7 @@ public class QuestServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String user = request.getSession().getAttribute("adventurer").toString();
         PairQG qg = (PairQG) request.getAttribute("quest");
+        Party userParty = (Party) request.getAttribute("party");
         Guild guild = qg.getGuild();
         Quest quest = qg.getQuest();
         List<Adventurer> adventurers = partyAdventurerDAO.findPartyMembersById(user);
@@ -57,6 +59,7 @@ public class QuestServlet extends HttpServlet {
             a.addGold(quest.getGold());
         }
         guild.addReputation(quest.getExp());
+        userParty.addReputation(quest.getExp());
 
         request.getRequestDispatcher("/WEB-INF/pages/quest.jsp").forward(request, response);
     }
